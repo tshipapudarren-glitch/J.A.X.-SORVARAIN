@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <files-path name="indicator_forge_files" path="indicator_forge/" />
+    <cache-path name="indicator_forge_cache" path="indicator_forge/" />
+</paths>

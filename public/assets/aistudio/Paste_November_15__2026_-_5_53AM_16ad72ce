@@ -1,0 +1,1398 @@
+# BUILD J.A.X. OMNIVERSE — SELF-LEARNING TRADING INTELLIGENCE PLATFORM
+
+## 1. PRODUCT IDENTITY
+
+Build a complete, premium, production-oriented AI trading intelligence web application called:
+
+**J.A.X. OMNIVERSE — AUTONOMOUS MARKET INTELLIGENCE**
+
+Tagline: **Learn the Market. Predict the Opportunity. Draw the Setup. Evolve the Strategy.**
+
+This must be a real functional trading intelligence application, not a static dashboard, mockup, landing page or collection of disconnected screens.
+
+The application must integrate 30 advanced self-learning trading indicators into one coordinated intelligence ecosystem.
+
+The system must:
+- Analyse live market data.
+- Identify market structure and trading opportunities.
+- Learn from historical market behaviour.
+- Evaluate its own historical signals.
+- Adapt indicator parameters using validated evidence.
+- Generate high-quality trading setups.
+- Automatically draw Entry, Stop Loss, TP1, TP2 and TP3 on charts.
+- Evaluate setups using historical performance.
+- Monitor multiple markets and timeframes.
+- Connect with MetaTrader 5 and TradingView-compatible workflows.
+- Provide historical backtesting and performance analytics.
+- Maintain transparent confidence scores and signal explanations.
+- Detect when a previously effective indicator begins deteriorating.
+
+Do not advertise the system as profitable or predictive beyond what its actual validated data supports.
+
+## 2. DESIGN AND USER EXPERIENCE
+
+Create a futuristic institutional-grade trading interface.
+
+### Visual identity
+- Primary background: deep black.
+- Secondary surfaces: charcoal and dark graphite.
+- Primary accent: metallic gold.
+- Secondary accent: red for bearish signals and risk warnings.
+- Green: bullish signals and positive performance.
+- White and silver: text and secondary information.
+- Subtle glassmorphism.
+- Premium borders and refined gradients.
+- Smooth transitions and professional chart visualisations.
+- Dense but readable institutional trading layouts.
+
+The interface should feel like a combination of a professional trading terminal, quantitative research platform and advanced AI command centre.
+
+Support desktop, tablet and mobile layouts.
+
+Provide:
+- Collapsible navigation.
+- Customisable dashboard.
+- Dark interface throughout.
+- Global market search.
+- Notification centre.
+- User profile and settings.
+- Command palette.
+- Responsive charts.
+- Persistent user preferences.
+
+## 3. MAIN NAVIGATION
+
+Create these main application sections:
+
+1. Command Centre
+2. Live Market Intelligence
+3. AI Chart Analyser
+4. 30 VIP Indicators
+5. Self-Learning Engine
+6. Setup Generator
+7. Global Market Scanner
+8. Multi-Timeframe Intelligence
+9. Liquidity Radar
+10. Market Behaviour DNA
+11. Prediction Laboratory
+12. Backtesting Laboratory
+13. Strategy Optimisation
+14. Indicator Performance
+15. Trade Investigator
+16. Risk Intelligence
+17. Trading Sessions
+18. Economic News Intelligence
+19. MT5 Integration
+20. TradingView Integration
+21. Alerts Centre
+22. AI Research Centre
+23. Learning History
+24. System Health
+25. Settings
+
+## 4. COMMAND CENTRE
+
+Create the main trading dashboard.
+
+Display:
+- Overall market condition.
+- Live connected data status.
+- Active instruments.
+- Bullish and bearish market bias.
+- Market strength score.
+- Market volatility.
+- Current market regime.
+- Top opportunities.
+- Active indicator signals.
+- Highest-rated setups.
+- Recent setup outcomes.
+- Indicator learning activity.
+- Recent performance.
+- Current risk environment.
+- Upcoming economic events.
+- Connection status for every data provider.
+
+Add a global AI summary that explains what is happening in the market using actual available data.
+
+Create a VIP Opportunity Board ranking setups by:
+- Historical performance.
+- Current confluence.
+- Risk/reward.
+- Market regime compatibility.
+- Signal quality.
+- Data quality.
+- Recent performance.
+- Validation confidence.
+
+Never fabricate live values or display fake connected statuses.
+
+## 5. THE 30 SELF-LEARNING VIP INDICATORS
+
+Create 30 individually configurable indicators.
+
+Each indicator must have:
+- Dedicated settings.
+- Individual enable/disable control.
+- Supported instruments.
+- Supported timeframes.
+- Historical signal records.
+- Signal performance statistics.
+- Learning status.
+- Current parameter version.
+- Suggested parameter improvements.
+- Chart drawing settings.
+- Alert settings.
+- Historical backtesting.
+- Market-regime performance.
+- Session performance.
+- Confidence and validation information.
+
+### CATEGORY A — MARKET INTELLIGENCE
+
+**01. ADAPTIVE TREND DNA**
+
+Learn which trend conditions have historically been associated with continuation.
+
+Analyse:
+- EMA relationships.
+- Swing structure.
+- Momentum.
+- Trend strength.
+- Pullback depth.
+- Volatility.
+- Higher-timeframe direction.
+
+Output:
+- Bullish or bearish trend.
+- Trend strength.
+- Continuation probability estimate.
+- Trend invalidation.
+- Potential entry areas.
+
+**02. SMART LIQUIDITY PREDICTOR**
+
+Identify and rank potential liquidity targets.
+
+Analyse:
+- Equal highs.
+- Equal lows.
+- Previous highs and lows.
+- Session highs and lows.
+- Swing liquidity.
+- Liquidity sweeps.
+- Repeated price reactions.
+
+Draw liquidity zones and indicate whether historical conditions favour a sweep, continuation or rejection.
+
+**03. AI MARKET STRUCTURE SCANNER**
+
+Detect:
+- Break of Structure.
+- Change of Character.
+- Higher highs.
+- Higher lows.
+- Lower highs.
+- Lower lows.
+- Internal and external structure.
+- Displacement.
+
+Learn which structural patterns have historically produced meaningful movements.
+
+**04. DYNAMIC SUPPORT & RESISTANCE AI**
+
+Automatically identify important support and resistance levels.
+
+Rank levels using:
+- Number of reactions.
+- Reaction strength.
+- Volume where available.
+- Age of level.
+- Breakout history.
+- Rejection history.
+- Higher-timeframe confluence.
+
+**05. VOLUME ACCEPTANCE INTELLIGENCE**
+
+Analyse whether price movements beyond important levels are supported by volume.
+
+Detect:
+- Volume expansion.
+- Weak breakouts.
+- Strong acceptance.
+- Rejection.
+- Failed acceptance.
+- Retest confirmation.
+
+Distinguish exchange volume, broker volume and tick-volume estimates.
+
+**06. VOLATILITY ADAPTATION ENGINE**
+
+Learn how the instrument behaves under different volatility conditions.
+
+Detect:
+- Compression.
+- Expansion.
+- ATR changes.
+- Volatility shocks.
+- Low-volatility ranges.
+- High-volatility conditions.
+
+Automatically adjust indicator sensitivity within validated limits.
+
+**07. SMART MONEY PATTERN LEARNER**
+
+Identify and evaluate:
+- Order blocks.
+- Breaker blocks.
+- Mitigation blocks.
+- Fair value gaps.
+- Displacement.
+- Liquidity sweeps.
+- Structural shifts.
+
+Rank detected patterns based on historical performance.
+
+**08. FVG PROBABILITY ENGINE**
+
+Detect bullish and bearish fair value gaps.
+
+Evaluate:
+- Gap size.
+- Displacement strength.
+- Market structure.
+- Gap location.
+- Mitigation depth.
+- Timeframe alignment.
+- Historical reaction.
+
+Draw active and mitigated FVG zones.
+
+**09. ADAPTIVE REVERSAL DETECTOR**
+
+Identify possible reversal conditions using:
+- Momentum exhaustion.
+- Liquidity sweeps.
+- Rejection candles.
+- Structure changes.
+- Volume shifts.
+- Divergence where data supports it.
+
+Show reversal confirmation and invalidation separately.
+
+**10. MOMENTUM EVOLUTION AI**
+
+Monitor changing momentum.
+
+Detect:
+- Acceleration.
+- Deceleration.
+- Momentum divergence.
+- Trend exhaustion.
+- Momentum recovery.
+- Expansion conditions.
+
+### CATEGORY B — VIP SETUP INDICATORS
+
+**11. AI SNIPER ENTRY PRO**
+
+Identify high-confluence entry opportunities.
+
+Generate:
+- Entry zone.
+- Suggested entry price.
+- Stop Loss.
+- TP1.
+- TP2.
+- TP3.
+- Risk/reward.
+- Setup score.
+- Confirmation status.
+- Invalidation level.
+
+**12. BREAKOUT RETEST INTELLIGENCE**
+
+Detect:
+- Range breakout.
+- Structural breakout.
+- Volume-supported breakout.
+- Retest.
+- Failed retest.
+- Continuation.
+
+Learn which breakout conditions are most reliable for each instrument and timeframe.
+
+**13. LIQUIDITY SWEEP REVERSAL PRO**
+
+Detect stop hunts and liquidity sweeps.
+
+Evaluate:
+- Liquidity taken.
+- Rejection strength.
+- Candle close.
+- Displacement.
+- Structure shift.
+- Retest confirmation.
+
+Draw the sweep, entry zone and invalidation.
+
+**14. GOLDEN ZONE FIBONACCI AI**
+
+Automatically identify meaningful Fibonacci retracement zones.
+
+Evaluate:
+- 0.500.
+- 0.618.
+- 0.705.
+- 0.786.
+
+Rank zones based on market structure, confluence and historical reaction.
+
+**15. CANDLE PSYCHOLOGY LEARNER**
+
+Recognise:
+- Engulfing candles.
+- Pin bars.
+- Rejection candles.
+- Inside bars.
+- Displacement candles.
+- Strong-bodied candles.
+- Indecision candles.
+
+Learn which candle patterns matter in different market conditions.
+
+**16. SESSION HUNTER EVOLUTION**
+
+Analyse:
+- Asian session.
+- London session.
+- New York session.
+- Session opening ranges.
+- Session highs and lows.
+- Session liquidity sweeps.
+- Session breakouts.
+- Session reversals.
+
+Learn instrument-specific session behaviour.
+
+**17. ORDER BLOCK PRECISION AI**
+
+Detect and rank bullish and bearish order blocks.
+
+Evaluate:
+- Originating displacement.
+- Structure.
+- Freshness.
+- Mitigation.
+- Breaker transitions.
+- Higher-timeframe confluence.
+
+Draw active order blocks and invalidated zones.
+
+**18. TREND CONTINUATION MASTER**
+
+Identify potential continuation opportunities after pullbacks.
+
+Analyse:
+- Trend direction.
+- Pullback depth.
+- Momentum recovery.
+- Structure.
+- Support and resistance.
+- Volatility.
+- Multi-timeframe agreement.
+
+**19. COMPRESSION BREAKOUT AI**
+
+Detect market compression and potential expansion.
+
+Analyse:
+- Range width.
+- ATR contraction.
+- Candle overlap.
+- Bollinger Band width where enabled.
+- Volume behaviour.
+- Historical breakout outcomes.
+
+**20. MULTI-CONFLUENCE SETUP AI**
+
+Combine signals from all enabled indicators.
+
+Calculate:
+- Trend alignment.
+- Liquidity alignment.
+- Structure alignment.
+- Volume confirmation.
+- Volatility suitability.
+- Session suitability.
+- Entry confirmation.
+- Historical setup performance.
+
+Avoid counting correlated indicators as independent evidence.
+
+### CATEGORY C — PREDICTIVE AND QUANTITATIVE INDICATORS
+
+**21. MARKET REGIME INTELLIGENCE**
+
+Classify the market as:
+- Trending.
+- Ranging.
+- High volatility.
+- Low volatility.
+- Transitional.
+- Compression.
+- Expansion.
+
+Track regime changes and performance by regime.
+
+**22. FALSE BREAKOUT PREDICTOR**
+
+Evaluate breakout failure risk using:
+- Weak candle closes.
+- Lack of volume confirmation.
+- Nearby opposing liquidity.
+- Failed retests.
+- Rejection.
+- Volatility conditions.
+- Historical failure patterns.
+
+**23. PRICE EXPANSION PREDICTOR**
+
+Estimate the likelihood of meaningful price expansion over a defined future horizon.
+
+Use historical volatility, compression, momentum and market structure.
+
+Show the forecast horizon, probability calibration and uncertainty.
+
+**24. ADAPTIVE TREND REVERSAL RADAR**
+
+Detect weakening trends and potential directional changes.
+
+Display:
+- Current direction.
+- Trend weakening score.
+- Reversal warning.
+- Confirmation requirements.
+- Invalidation.
+
+**25. SMART TARGET OPTIMISER**
+
+Calculate potential TP levels using:
+- ATR.
+- Nearby liquidity.
+- Swing highs and lows.
+- Support and resistance.
+- Historical movement.
+- Risk/reward.
+- Market regime.
+
+**26. DYNAMIC STOP-LOSS INTELLIGENCE**
+
+Suggest stop-loss locations using:
+- Structural invalidation.
+- ATR.
+- Recent volatility.
+- Swing points.
+- Liquidity zones.
+- Historical adverse excursion.
+
+Never move stops merely to improve displayed backtest results.
+
+**27. MULTI-TIMEFRAME PREDICTION MATRIX**
+
+Compare:
+- D1.
+- H4.
+- H1.
+- M30.
+- M15.
+- M5.
+- M1.
+
+Display:
+- Direction.
+- Structure.
+- Momentum.
+- Liquidity.
+- Volatility.
+- Confluence.
+- Conflicting signals.
+
+**28. AI TRADE PROBABILITY MATRIX**
+
+Evaluate similar historical setups.
+
+Display:
+- Number of comparable historical examples.
+- Win rate.
+- Average R.
+- Profit factor.
+- Drawdown.
+- Confidence interval.
+- Current similarity.
+- Validation sample size.
+
+Do not present a historical win rate as a guaranteed future probability.
+
+**29. MARKET BEHAVIOUR DNA**
+
+Build a separate behavioural profile for each instrument.
+
+Learn:
+- Typical session movement.
+- Average volatility.
+- Common reversal zones.
+- Breakout behaviour.
+- Liquidity behaviour.
+- Trend duration.
+- Pullback depth.
+- Timeframe characteristics.
+
+**30. AUTONOMOUS INDICATOR EVOLUTION**
+
+The central evolution engine.
+
+It must:
+- Compare indicator versions.
+- Test alternative parameters.
+- Evaluate historical performance.
+- Run walk-forward validation.
+- Test unseen data.
+- Detect performance decay.
+- Recommend improvements.
+- Compare market regimes.
+- Maintain version history.
+- Roll back degraded versions.
+
+It must never automatically replace a live production version without validation and required approval.
+
+## 6. SELF-LEARNING ENGINE
+
+Build one shared learning infrastructure for all 30 indicators.
+
+Do not create 30 unrelated fake AI learning systems.
+
+### Learning pipeline
+
+1. Collect verified historical and live market data.
+2. Calculate indicator features.
+3. Generate timestamped signals.
+4. Record the exact conditions at signal time.
+5. Track subsequent price movement.
+6. Determine whether targets or stop-losses were reached.
+7. Calculate outcome statistics.
+8. Group outcomes by instrument, timeframe, session and market regime.
+9. Train or update supported models.
+10. Validate against unseen historical periods.
+11. Compare candidate models with production versions.
+12. Publish approved versions.
+13. Monitor live performance.
+14. Roll back if performance deteriorates.
+
+### Learning capabilities
+
+- Historical pattern learning.
+- Adaptive parameter optimisation.
+- Market-regime learning.
+- Instrument-specific learning.
+- Timeframe-specific learning.
+- Session-specific learning.
+- False-signal recognition.
+- Signal quality scoring.
+- Entry sensitivity optimisation.
+- Stop-loss and target research.
+- Performance decay detection.
+- Model comparison.
+- Walk-forward testing.
+- Out-of-sample validation.
+- Version control.
+
+### Learning dashboard
+
+Display:
+- Active learning jobs.
+- Completed learning jobs.
+- Model version.
+- Last training date.
+- Training sample size.
+- Validation sample size.
+- Previous performance.
+- Current performance.
+- Proposed parameter changes.
+- Model confidence.
+- Learning errors.
+- Deployment approval status.
+
+### Learning protection
+
+Never:
+- Train using future information unavailable at signal time.
+- Use future candles to confirm historical entries.
+- Repaint previously confirmed signals.
+- Optimise solely for win rate.
+- Automatically increase trading risk after wins.
+- Change production parameters after every trade.
+- Present insufficient sample sizes as reliable results.
+
+Use realistic spread, commission, slippage and execution assumptions.
+
+## 7. AI CHART ANALYSER
+
+Build a powerful interactive chart analysis workspace.
+
+Users must be able to:
+- Search an instrument.
+- Select timeframe.
+- View live or historical candles.
+- Enable individual indicators.
+- Enable indicator groups.
+- Overlay multiple indicators.
+- Upload a chart screenshot for visual analysis.
+- Request a full AI chart report.
+- Generate automatic trading setups.
+- Compare bullish and bearish scenarios.
+- Save chart layouts.
+
+### Automatic chart drawings
+
+Every compatible setup must be capable of drawing:
+
+- Entry line.
+- Entry zone.
+- Stop Loss line.
+- TP1 line.
+- TP2 line.
+- TP3 line.
+- Risk/reward box.
+- Invalidation line.
+- Liquidity levels.
+- Order blocks.
+- FVG zones.
+- Support and resistance.
+- Trend lines.
+- Breakout levels.
+- Session highs and lows.
+
+Each setup drawing must have a label containing:
+- Setup name.
+- Direction.
+- Timeframe.
+- Setup score.
+- Confirmation state.
+- Entry price.
+- Stop-loss price.
+- Target prices.
+- Creation timestamp.
+
+Use different visual styles for active, confirmed, invalidated and completed setups.
+
+Do not draw future candles or pretend that a prediction is a confirmed market event.
+
+## 8. AI SETUP GENERATOR
+
+Build an independent setup-generation engine.
+
+It must combine all 30 indicators where applicable.
+
+For every candidate setup calculate:
+- Direction.
+- Entry zone.
+- Entry price.
+- Stop Loss.
+- TP1.
+- TP2.
+- TP3.
+- Risk/reward.
+- Confluence score.
+- Historical evidence.
+- Regime suitability.
+- Session suitability.
+- Confirmation requirements.
+- Invalidation.
+- Explanation.
+
+Provide three setup states:
+1. Developing.
+2. Confirmed.
+3. Invalidated.
+
+Only confirmed closed-candle conditions should trigger a confirmed signal when the selected strategy requires candle-close confirmation.
+
+Users can configure:
+- Minimum setup score.
+- Minimum risk/reward.
+- Allowed indicators.
+- Timeframes.
+- Trading sessions.
+- Maximum open risk.
+- Maximum setups per instrument.
+- Alert frequency.
+
+## 9. GLOBAL MARKET SCANNER
+
+Create a scanner for configurable instrument lists.
+
+Support, where the data provider and broker allow:
+- Forex.
+- Metals.
+- Indices.
+- Commodities.
+- Cryptocurrencies.
+- Stocks.
+- Futures.
+- Deriv synthetic instruments where supported.
+
+Allow users to create watchlists.
+
+Scan for:
+- Breakouts.
+- Retests.
+- Liquidity sweeps.
+- FVG entries.
+- Order blocks.
+- BOS/CHoCH.
+- Reversals.
+- Trend continuation.
+- Compression breakouts.
+- High-confluence setups.
+
+Rank opportunities by evidence-based quality, not arbitrary AI-generated scores.
+
+Include filters for:
+- Instrument.
+- Direction.
+- Timeframe.
+- Session.
+- Setup type.
+- Minimum score.
+- Market regime.
+- Risk/reward.
+
+## 10. MULTI-TIMEFRAME INTELLIGENCE
+
+Provide a unified multi-timeframe matrix.
+
+For each instrument display:
+- D1 bias.
+- H4 bias.
+- H1 bias.
+- M30 bias.
+- M15 bias.
+- M5 bias.
+- M1 bias.
+
+Compare:
+- Trend.
+- Structure.
+- Liquidity.
+- Momentum.
+- Volatility.
+- Key levels.
+- Setup confirmation.
+
+Allow configurable strategies such as:
+- H1 trend with M15 entries.
+- H1/H4 confirmation with M5 entries.
+- H4/D1 direction with M15 entries.
+
+Do not force one timeframe configuration on every strategy.
+
+## 11. LIQUIDITY RADAR
+
+Create a dedicated liquidity intelligence interface.
+
+Display:
+- Equal highs.
+- Equal lows.
+- Buy-side liquidity.
+- Sell-side liquidity.
+- Previous day high and low.
+- Previous week high and low.
+- Session highs and lows.
+- Recent swing points.
+- Swept liquidity.
+- Potential liquidity targets.
+
+Show the source timeframe and whether each level is active, swept or invalidated.
+
+## 12. MARKET BEHAVIOUR DNA
+
+Build an instrument-specific intelligence profile.
+
+Example profiles:
+- XAUUSD.
+- EURUSD.
+- GBPUSD.
+- BTCUSD.
+- US30.
+- NAS100.
+
+For every instrument calculate:
+- Average true range.
+- Average session movement.
+- Typical pullback.
+- Typical breakout distance.
+- Common volatility periods.
+- Historical setup outcomes.
+- Best-performing tested configurations.
+- Weakest-performing configurations.
+- Current market regime.
+
+Only display conclusions supported by sufficient data.
+
+## 13. PREDICTION LABORATORY
+
+Create a research workspace for forecasting and scenario analysis.
+
+Include:
+- Directional scenario modelling.
+- Volatility forecasts.
+- Price expansion estimates.
+- Reversal risk.
+- Breakout failure risk.
+- Liquidity target scenarios.
+- Market regime forecasts.
+
+Every prediction must include:
+- Forecast horizon.
+- Timestamp.
+- Data inputs.
+- Model version.
+- Confidence or calibrated probability where supported.
+- Uncertainty.
+- Invalidation conditions.
+- Actual outcome once the horizon expires.
+
+Never claim certainty about future price movements.
+
+## 14. BACKTESTING LABORATORY
+
+Build a full historical testing environment.
+
+Users can select:
+- Indicator.
+- Indicator combination.
+- Instrument.
+- Timeframe.
+- Date range.
+- Trading session.
+- Entry conditions.
+- Exit conditions.
+- Stop-loss model.
+- Target model.
+- Spread.
+- Commission.
+- Slippage.
+- Initial balance.
+- Risk per trade.
+
+Calculate:
+- Total trades.
+- Winning trades.
+- Losing trades.
+- Win rate.
+- Net profit.
+- Net loss.
+- Profit factor.
+- Maximum drawdown.
+- Average R.
+- Expectancy.
+- Sharpe ratio where statistically appropriate.
+- Recovery factor.
+- Consecutive wins and losses.
+- Performance by session.
+- Performance by market regime.
+
+Include:
+- Equity curve.
+- Drawdown chart.
+- Trade distribution.
+- Monthly results.
+- Long/short comparison.
+- Trade-by-trade history.
+
+Backtests must use timestamp-correct data and realistic execution assumptions.
+
+## 15. STRATEGY OPTIMISATION
+
+Allow users to build strategies using the 30 indicators.
+
+Provide:
+- Visual strategy builder.
+- Entry condition builder.
+- Exit condition builder.
+- Indicator weighting.
+- Timeframe configuration.
+- Risk controls.
+- Parameter search.
+- Genetic or Bayesian optimisation where supported.
+- Walk-forward analysis.
+- Out-of-sample tests.
+- Robustness testing.
+- Monte Carlo testing where appropriate.
+
+Prevent overfitting through separate training, validation and test periods.
+
+Keep production strategies versioned and reversible.
+
+## 16. INDICATOR PERFORMANCE CENTRE
+
+Build a comparison dashboard for all 30 indicators.
+
+Show:
+- Win rate.
+- Profit factor.
+- Average R.
+- Maximum drawdown.
+- Expectancy.
+- Number of signals.
+- False signal rate.
+- Performance by instrument.
+- Performance by timeframe.
+- Performance by session.
+- Performance by market regime.
+- Recent performance versus historical performance.
+
+Allow users to compare any two or more indicators.
+
+Show when a statistic has insufficient samples.
+
+## 17. TRADE INVESTIGATOR
+
+For every historical signal or connected trade, analyse:
+- Why the setup appeared.
+- Which indicators agreed.
+- Which indicators disagreed.
+- Whether the setup was confirmed.
+- Whether the entry followed the plan.
+- Maximum favourable excursion.
+- Maximum adverse excursion.
+- Whether TP1, TP2 or TP3 was reached.
+- Whether stop-loss was reached.
+- What market regime was active.
+- What could have been improved.
+
+Create recurring pattern reports.
+
+Separate signal analysis from actual broker execution results.
+
+## 18. RISK INTELLIGENCE
+
+Create a professional risk control centre.
+
+Monitor:
+- Risk per trade.
+- Aggregate open risk.
+- Daily drawdown.
+- Weekly drawdown.
+- Maximum drawdown.
+- Correlated exposure.
+- Instrument concentration.
+- Position sizing.
+- Spread conditions.
+- Volatility risk.
+- News-event risk.
+
+Provide configurable risk limits.
+
+For live execution, require explicit user activation and approval.
+
+Risk protection must be able to block new trades when configured limits are reached.
+
+## 19. TRADING SESSION INTELLIGENCE
+
+Provide configurable market sessions:
+- Asian.
+- London.
+- New York.
+- Custom broker session.
+
+Show:
+- Session opening range.
+- Session high and low.
+- Session volatility.
+- Session direction.
+- Session sweeps.
+- Session breakouts.
+- Session performance statistics.
+
+Handle timezone and daylight-saving changes correctly.
+
+## 20. ECONOMIC NEWS INTELLIGENCE
+
+Integrate a reliable economic calendar and supported news data providers.
+
+Monitor:
+- CPI.
+- NFP.
+- Interest-rate decisions.
+- Central bank statements.
+- GDP.
+- Employment.
+- Inflation.
+- Major geopolitical events.
+
+Display:
+- Event time.
+- Currency or instrument impact.
+- Expected volatility.
+- Upcoming high-impact events.
+- Historical behaviour where data is available.
+
+Never invent news or event results.
+
+Allow users to configure a no-trade window around selected events.
+
+## 21. MT5 INTEGRATION
+
+Create a secure MetaTrader 5 connection architecture.
+
+Provide:
+- Account connection status.
+- Instrument mapping.
+- Market data synchronisation.
+- Indicator signal transmission.
+- EA integration.
+- Setup synchronisation.
+- Historical trade import.
+- Execution status.
+- Risk monitoring.
+
+Build a dedicated MT5 Expert Advisor bridge that can communicate with the application through authenticated backend endpoints.
+
+The bridge should support:
+- Heartbeats.
+- Account and terminal status.
+- Instrument data.
+- Candle data.
+- Indicator signals.
+- Setup drawings.
+- Approved trade instructions.
+- Execution acknowledgements.
+- Position updates.
+- Trade history.
+- Error reporting.
+
+Use secure per-user tokens, revocation, request authentication, timestamps and replay protection.
+
+Do not expose credentials or secret tokens in frontend code.
+
+Live trading must remain disabled by default.
+
+Require explicit user approval before live execution is enabled.
+
+## 22. TRADINGVIEW INTEGRATION
+
+Support TradingView-compatible workflows.
+
+Provide:
+- Pine Script v6 export specifications.
+- Indicator configuration export.
+- Webhook alert ingestion.
+- Signal synchronisation.
+- Setup notification handling.
+- Chart setup templates.
+
+Generate Pine Script only when the required rules can be represented accurately.
+
+Where TradingView cannot perform a requested function natively, explain the limitation and use a supported external backend workflow.
+
+Maintain rule consistency between TradingView and MT5 implementations where technically feasible.
+
+## 23. ALERTS CENTRE
+
+Support configurable alerts for:
+- New confirmed setup.
+- Developing setup.
+- Entry zone reached.
+- Stop-loss reached.
+- TP1 reached.
+- TP2 reached.
+- TP3 reached.
+- Liquidity sweep.
+- Breakout.
+- Reversal.
+- Regime change.
+- News warning.
+- Indicator performance deterioration.
+- Data connection failure.
+- MT5 execution acknowledgement.
+
+Support in-app notifications and supported external notification integrations.
+
+Avoid duplicate and excessive alerts.
+
+## 24. AI RESEARCH CENTRE
+
+Create a conversational research interface where users can ask questions such as:
+
+- Analyse XAUUSD.
+- Find the strongest confirmed setups.
+- Compare the 30 indicators.
+- Which indicators perform best on M15?
+- Show me the strongest London-session patterns.
+- Find recent false breakouts.
+- Explain why this setup was generated.
+- Compare this setup with historical examples.
+- Find indicators experiencing performance decay.
+- Build a strategy using three selected indicators.
+
+The AI must use actual application data and clearly identify when information is unavailable.
+
+## 25. APPLICATION DATA ARCHITECTURE
+
+Create appropriate Base44 entities for the application.
+
+At minimum include:
+
+- UserProfile
+- UserPreferences
+- Instrument
+- Watchlist
+- MarketData
+- CandleHistory
+- MarketRegime
+- IndicatorDefinition
+- IndicatorConfiguration
+- IndicatorSignal
+- SignalOutcome
+- Setup
+- SetupDrawing
+- LiquidityLevel
+- MarketStructureEvent
+- LearningJob
+- LearningDataset
+- ModelVersion
+- ModelEvaluation
+- ParameterExperiment
+- Backtest
+- BacktestTrade
+- Strategy
+- StrategyVersion
+- TradeRecord
+- RiskProfile
+- Alert
+- Notification
+- EconomicEvent
+- Integration
+- MT5Connection
+- TradingViewWebhook
+- AuditLog
+- ApprovalRequest
+
+Include ownership, access controls, timestamps, status fields, version references and appropriate indexes or query strategies supported by Base44.
+
+Use consistent naming and avoid duplicating the same source of truth across entities.
+
+## 26. BACKEND AND AI ARCHITECTURE
+
+Use Base44 backend functions for:
+- Secure API communication.
+- Market data ingestion.
+- Signal calculation.
+- Learning job coordination.
+- Backtest coordination.
+- Model evaluation.
+- Notification dispatch.
+- MT5 communication.
+- TradingView webhook handling.
+- Audit logging.
+
+Use secure external compute services where required for:
+- Large historical datasets.
+- Heavy model training.
+- Long-running optimisation.
+- Continuous market streams.
+- Complex quantitative research.
+
+Use scheduled jobs or supported background execution for recurring analysis.
+
+Do not assume frontend pages can continuously execute background learning.
+
+Create provider adapters so that market data and AI providers can be replaced without rewriting the entire application.
+
+Store credentials in Base44 Secrets or a suitable secure server-side secret manager.
+
+## 27. SECURITY AND APPROVAL CENTRE
+
+Implement:
+- Authentication.
+- Role-based access.
+- User data isolation.
+- Secure backend permissions.
+- API token management.
+- Rate limiting.
+- Input validation.
+- Audit logs.
+- Session protection.
+- Integration revocation.
+- Approval workflows.
+- Emergency stop.
+
+Require approval for:
+- Enabling live trading.
+- Sending a live trade instruction.
+- Changing critical risk limits.
+- Deploying a new production strategy.
+- Replacing production indicator models.
+- Deleting important historical records.
+- Changing security permissions.
+
+An AI agent must never approve its own sensitive action.
+
+Approvals must be bound to the exact action and parameters.
+
+## 28. USER SETTINGS
+
+Allow configuration of:
+- Preferred instruments.
+- Preferred timeframes.
+- Trading sessions.
+- Enabled indicators.
+- Minimum setup score.
+- Minimum risk/reward.
+- Chart appearance.
+- Alert preferences.
+- Risk limits.
+- Data providers.
+- MT5 connection.
+- TradingView connection.
+- Learning settings.
+- Strategy settings.
+
+Provide sensible defaults without requiring users to configure every module before using the application.
+
+## 29. ADMINISTRATOR CONTROL CENTRE
+
+Create a protected administrator dashboard.
+
+Include:
+- User management.
+- Subscription management if enabled.
+- System health.
+- API usage.
+- Provider health.
+- Backend job monitoring.
+- Market data status.
+- Learning job status.
+- Error logs.
+- Security audit logs.
+- Model deployment controls.
+- Integration management.
+- Application configuration.
+
+Do not expose one user's trading account or private data to another user or administrator without the appropriate authorised access.
+
+## 30. DEVELOPMENT AND DELIVERY REQUIREMENTS
+
+Build this as a real application in phases.
+
+### PHASE 1 — FOUNDATION
+- Authentication.
+- Design system.
+- Navigation.
+- Command Centre.
+- Database entities.
+- User preferences.
+- Security architecture.
+
+### PHASE 2 — LIVE MARKET INTELLIGENCE
+- Market data integration.
+- Instrument search.
+- Live chart.
+- Historical candles.
+- Market regime.
+- Multi-timeframe analysis.
+
+### PHASE 3 — 30 VIP INDICATORS
+- Implement each indicator's calculation rules.
+- Create individual configuration screens.
+- Implement chart overlays.
+- Record signals.
+- Track signal outcomes.
+
+### PHASE 4 — SELF-LEARNING ENGINE
+- Historical datasets.
+- Signal evaluation.
+- Model training pipeline.
+- Parameter experiments.
+- Validation.
+- Versioning.
+- Rollback.
+
+### PHASE 5 — SETUP GENERATOR
+- Confluence engine.
+- Entry zones.
+- Stop-loss calculation.
+- TP1, TP2 and TP3.
+- Invalidation.
+- Setup drawings.
+- Alerts.
+
+### PHASE 6 — BACKTESTING AND OPTIMISATION
+- Backtesting engine.
+- Trade history.
+- Performance metrics.
+- Walk-forward validation.
+- Robustness tests.
+- Strategy builder.
+
+### PHASE 7 — MT5 AND TRADINGVIEW
+- Secure MT5 bridge.
+- Account synchronisation.
+- Signal communication.
+- TradingView webhook integration.
+- Pine Script v6 export workflows.
+
+### PHASE 8 — ADVANCED INTELLIGENCE
+- Prediction Laboratory.
+- Market Behaviour DNA.
+- AI Research Centre.
+- Trade Investigator.
+- Performance decay monitoring.
+
+### PHASE 9 — PRODUCTION HARDENING
+- Permission testing.
+- Security testing.
+- Error handling.
+- Performance optimisation.
+- Data integrity testing.
+- Integration failure testing.
+- Documentation.
+- Deployment readiness.
+
+## 31. NON-NEGOTIABLE RULES
+
+1. Build functioning features, not decorative buttons.
+2. Never display fabricated live market data.
+3. Never pretend an integration is connected when it is not.
+4. Never claim a model has learned unless a real learning process has completed.
+5. Never fabricate backtest results.
+6. Never use look-ahead bias.
+7. Never repaint confirmed historical signals.
+8. Never hide losing signals from performance reports.
+9. Keep historical, validation and test datasets separated.
+10. Show sample sizes alongside performance statistics.
+11. Keep model and strategy versions traceable.
+12. Provide rollback functionality.
+13. Protect users' trading account information.
+14. Keep live trading disabled until explicitly enabled.
+15. Require approval for sensitive external actions.
+16. Clearly distinguish an AI estimate from a confirmed market event.
+17. Make every indicator independently configurable.
+18. Keep the application modular and maintainable.
+19. Display honest connection and system health statuses.
+20. Never guarantee profits or market predictions.
+
+## FINAL BUILD INSTRUCTION
+
+Build J.A.X. OMNIVERSE as a complete premium trading intelligence platform with all 30 self-learning VIP indicators integrated into a shared market analysis, learning, prediction, setup generation and backtesting ecosystem.
+
+Prioritise real functionality, accurate calculations, reliable data, transparent performance and secure integrations.
+
+Do not attempt to simulate missing integrations or training systems.
+
+If an external API, market feed, broker bridge or compute service is required, create the integration architecture, configuration interface, secure backend function and clear connection status.
+
+Build each phase, test it and verify that it works before moving to the next phase.
+
+The finished product must feel like a professional AI-powered quantitative trading laboratory, not a conventional indicator dashboard.

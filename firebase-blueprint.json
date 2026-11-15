@@ -1,0 +1,510 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Trader account configuration, risk limits, and live execution guardrails.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Firebase Auth UID" },
+        "displayName": { "type": "string" },
+        "email": { "type": "string" },
+        "role": { "type": "string", "enum": ["trader", "analyst"] },
+        "accountBalance": { "type": "number" },
+        "riskPerTradePct": { "type": "number" },
+        "dailyLossLimitPct": { "type": "number" },
+        "weeklyLossLimitPct": { "type": "number" },
+        "maxDrawdownPct": { "type": "number" },
+        "liveTradingEnabled": { "type": "boolean" },
+        "preferredSymbol": { "type": "string" },
+        "preferredTimeframe": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp" },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Server timestamp" }
+      },
+      "required": ["userId", "displayName", "email", "role", "accountBalance", "riskPerTradePct", "dailyLossLimitPct", "weeklyLossLimitPct", "maxDrawdownPct", "liveTradingEnabled", "preferredSymbol", "preferredTimeframe", "createdAt", "updatedAt"]
+    },
+    "IndicatorConfig": {
+      "title": "IndicatorConfig",
+      "description": "Per-indicator configuration, learning status, and overlay toggles for the 30 VIP indicators.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "indicatorNumber": { "type": "integer" },
+        "name": { "type": "string" },
+        "category": { "type": "string", "enum": ["MARKET_INTELLIGENCE", "VIP_SETUP", "PREDICTIVE_QUANT"] },
+        "enabled": { "type": "boolean" },
+        "sensitivity": { "type": "number" },
+        "lookbackPeriod": { "type": "integer" },
+        "minConfidence": { "type": "number" },
+        "showChartOverlay": { "type": "boolean" },
+        "alertsEnabled": { "type": "boolean" },
+        "activeVersion": { "type": "string" },
+        "learningStatus": { "type": "string", "enum": ["IDLE", "EVALUATED", "PENDING_APPROVAL", "DECAY_ALERT"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "indicatorNumber", "name", "category", "enabled", "sensitivity", "lookbackPeriod", "minConfidence", "showChartOverlay", "alertsEnabled", "activeVersion", "learningStatus", "createdAt", "updatedAt"]
+    },
+    "SetupRecord": {
+      "title": "SetupRecord",
+      "description": "Generated multi-confluence trading setup with entry, SL, TP1-TP3, invalidation, and DNA fingerprint.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "symbol": { "type": "string" },
+        "timeframe": { "type": "string" },
+        "direction": { "type": "string", "enum": ["BUY", "SELL"] },
+        "status": { "type": "string", "enum": ["DEVELOPING", "CONFIRMED", "INVALIDATED", "COMPLETED"] },
+        "entryPrice": { "type": "number" },
+        "entryZoneLow": { "type": "number" },
+        "entryZoneHigh": { "type": "number" },
+        "stopLoss": { "type": "number" },
+        "tp1": { "type": "number" },
+        "tp2": { "type": "number" },
+        "tp3": { "type": "number" },
+        "riskReward": { "type": "number" },
+        "confluenceScore": { "type": "number" },
+        "regime": { "type": "string" },
+        "sessionName": { "type": "string" },
+        "invalidationLevel": { "type": "number" },
+        "explanation": { "type": "string" },
+        "dnaFingerprint": { "type": "string" },
+        "confirmingIndicators": { "type": "array" },
+        "conflictingIndicators": { "type": "array" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "symbol", "timeframe", "direction", "status", "entryPrice", "entryZoneLow", "entryZoneHigh", "stopLoss", "tp1", "tp2", "tp3", "riskReward", "confluenceScore", "regime", "sessionName", "invalidationLevel", "explanation", "dnaFingerprint", "confirmingIndicators", "conflictingIndicators", "createdAt", "updatedAt"]
+    },
+    "BacktestRecord": {
+      "title": "BacktestRecord",
+      "description": "Historical backtest execution summary with walk-forward and out-of-sample metrics.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "strategyName": { "type": "string" },
+        "symbol": { "type": "string" },
+        "timeframe": { "type": "string" },
+        "indicatorIds": { "type": "array" },
+        "totalTrades": { "type": "integer" },
+        "winningTrades": { "type": "integer" },
+        "losingTrades": { "type": "integer" },
+        "winRate": { "type": "number" },
+        "netProfit": { "type": "number" },
+        "profitFactor": { "type": "number" },
+        "maxDrawdownPct": { "type": "number" },
+        "avgR": { "type": "number" },
+        "expectancy": { "type": "number" },
+        "sharpeRatio": { "type": "number" },
+        "spreadPips": { "type": "number" },
+        "commissionPct": { "type": "number" },
+        "slippagePips": { "type": "number" },
+        "walkForwardPassed": { "type": "boolean" },
+        "outOfSampleScore": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "strategyName", "symbol", "timeframe", "indicatorIds", "totalTrades", "winningTrades", "losingTrades", "winRate", "netProfit", "profitFactor", "maxDrawdownPct", "avgR", "expectancy", "sharpeRatio", "spreadPips", "commissionPct", "slippagePips", "walkForwardPassed", "outOfSampleScore", "createdAt", "updatedAt"]
+    },
+    "StrategyRecord": {
+      "title": "StrategyRecord",
+      "description": "Versioned multi-indicator strategy configuration.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "indicatorIds": { "type": "array" },
+        "entryTimeframe": { "type": "string" },
+        "biasTimeframe": { "type": "string" },
+        "minScore": { "type": "number" },
+        "minRiskReward": { "type": "number" },
+        "version": { "type": "integer" },
+        "isProduction": { "type": "boolean" },
+        "status": { "type": "string", "enum": ["DRAFT", "VALIDATED", "PRODUCTION", "ROLLED_BACK"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "name", "description", "indicatorIds", "entryTimeframe", "biasTimeframe", "minScore", "minRiskReward", "version", "isProduction", "status", "createdAt", "updatedAt"]
+    },
+    "LearningJobRecord": {
+      "title": "LearningJobRecord",
+      "description": "Self-learning parameter experiment, walk-forward validation, and version approval status.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "indicatorNumber": { "type": "integer" },
+        "indicatorName": { "type": "string" },
+        "symbol": { "type": "string" },
+        "timeframe": { "type": "string" },
+        "trainingSamples": { "type": "integer" },
+        "validationSamples": { "type": "integer" },
+        "previousWinRate": { "type": "number" },
+        "candidateWinRate": { "type": "number" },
+        "previousExpectancy": { "type": "number" },
+        "candidateExpectancy": { "type": "number" },
+        "proposedChangeSummary": { "type": "string" },
+        "modelVersion": { "type": "string" },
+        "approvalStatus": { "type": "string", "enum": ["PENDING_APPROVAL", "APPROVED", "ROLLED_BACK", "REJECTED"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "indicatorNumber", "indicatorName", "symbol", "timeframe", "trainingSamples", "validationSamples", "previousWinRate", "candidateWinRate", "previousExpectancy", "candidateExpectancy", "proposedChangeSummary", "modelVersion", "approvalStatus", "createdAt", "updatedAt"]
+    },
+    "TradeJournalRecord": {
+      "title": "TradeJournalRecord",
+      "description": "Recorded signal outcome or imported MT5 trade with MFE/MAE forensic metrics.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "symbol": { "type": "string" },
+        "timeframe": { "type": "string" },
+        "direction": { "type": "string", "enum": ["BUY", "SELL"] },
+        "source": { "type": "string", "enum": ["SIGNAL_TRACKER", "MT5_IMPORT", "BACKTEST"] },
+        "entryPrice": { "type": "number" },
+        "exitPrice": { "type": "number" },
+        "stopLoss": { "type": "number" },
+        "tp1": { "type": "number" },
+        "pnlR": { "type": "number" },
+        "mfeR": { "type": "number" },
+        "maeR": { "type": "number" },
+        "regime": { "type": "string" },
+        "notes": { "type": "string" },
+        "status": { "type": "string", "enum": ["OPEN", "CLOSED", "CANCELLED"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "symbol", "timeframe", "direction", "source", "entryPrice", "exitPrice", "stopLoss", "tp1", "pnlR", "mfeR", "maeR", "regime", "notes", "status", "createdAt", "updatedAt"]
+    },
+    "AlertRecord": {
+      "title": "AlertRecord",
+      "description": "Configurable trading and system health alert.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "symbol": { "type": "string" },
+        "timeframe": { "type": "string" },
+        "category": { "type": "string" },
+        "title": { "type": "string" },
+        "message": { "type": "string" },
+        "severity": { "type": "string", "enum": ["INFO", "SIGNAL", "WARNING", "CRITICAL"] },
+        "acknowledged": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "symbol", "timeframe", "category", "title", "message", "severity", "acknowledged", "createdAt", "updatedAt"]
+    },
+    "IntegrationRecord": {
+      "title": "IntegrationRecord",
+      "description": "External MT5 EA Bridge, TradingView webhook, and market data provider connection state.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "type": { "type": "string", "enum": ["MT5_BRIDGE", "MT5_COMPILER_WORKER", "TRADINGVIEW_WEBHOOK", "MARKET_DATA_API"] },
+        "name": { "type": "string" },
+        "endpointUrl": { "type": "string" },
+        "status": { "type": "string", "enum": ["DISCONNECTED", "CONFIGURED", "CONNECTED", "ERROR"] },
+        "liveExecutionAllowed": { "type": "boolean" },
+        "lastSyncSummary": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "type", "name", "endpointUrl", "status", "liveExecutionAllowed", "lastSyncSummary", "createdAt", "updatedAt"]
+    },
+    "ApprovalRequestRecord": {
+      "title": "ApprovalRequestRecord",
+      "description": "Explicit user approval gate for sensitive system, model deployment, and live execution actions.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "actionType": { "type": "string", "enum": ["ENABLE_LIVE_TRADING", "DEPLOY_MODEL_VERSION", "DEPLOY_STRATEGY", "UPDATE_RISK_LIMITS", "ROLLBACK_MODEL"] },
+        "targetId": { "type": "string" },
+        "summary": { "type": "string" },
+        "status": { "type": "string", "enum": ["PENDING", "APPROVED", "REJECTED"] },
+        "requestedBy": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "actionType", "targetId", "summary", "status", "requestedBy", "createdAt", "updatedAt"]
+    },
+    "AuditLogRecord": {
+      "title": "AuditLogRecord",
+      "description": "Immutable append-only security and governance audit trail.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "action": { "type": "string" },
+        "actor": { "type": "string" },
+        "details": { "type": "string" },
+        "severity": { "type": "string", "enum": ["INFO", "WARNING", "CRITICAL"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "action", "actor", "details", "severity", "createdAt"]
+    },
+    "IndicatorProject": {
+      "title": "IndicatorProject",
+      "description": "User-owned downloadable indicator project inside J.A.X. Indicator Forge.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "category": { "type": "string" },
+        "platform": { "type": "string", "enum": ["MT5", "TRADINGVIEW", "DUAL"] },
+        "complexity": { "type": "string", "enum": ["SIMPLE", "ADVANCED", "PRO", "AI_ASSISTED", "CUSTOM"] },
+        "devStatus": { "type": "string", "enum": ["DRAFT", "VALIDATED", "COMPILED", "FAILED"] },
+        "currentVersion": { "type": "string" },
+        "visibility": { "type": "string", "enum": ["PRIVATE", "MARKETPLACE_SUBMITTED", "PUBLIC"] },
+        "isFavorite": { "type": "boolean" },
+        "mtfTimeframes": { "type": "array" },
+        "setupPattern": { "type": "string" },
+        "closedCandleOnly": { "type": "boolean" },
+        "entryColorHex": { "type": "string" },
+        "slColorHex": { "type": "string" },
+        "tpColorHex": { "type": "string" },
+        "equivalenceNotes": { "type": "string" },
+        "downloadCount": { "type": "integer" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "name", "description", "category", "platform", "complexity", "devStatus", "currentVersion", "visibility", "isFavorite", "mtfTimeframes", "setupPattern", "closedCandleOnly", "entryColorHex", "slColorHex", "tpColorHex", "equivalenceNotes", "downloadCount", "createdAt", "updatedAt"]
+    },
+    "IndicatorSource": {
+      "title": "IndicatorSource",
+      "description": "Versioned MQL5 or Pine Script v6 source snapshot with validation report.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "projectId": { "type": "string" },
+        "version": { "type": "string" },
+        "platform": { "type": "string", "enum": ["MT5", "TRADINGVIEW"] },
+        "fileName": { "type": "string" },
+        "sourceCode": { "type": "string" },
+        "changeSummary": { "type": "string" },
+        "createdByAgent": { "type": "string" },
+        "isStable": { "type": "boolean" },
+        "repaintRiskNotes": { "type": "string" },
+        "validationPassed": { "type": "boolean" },
+        "validationSummary": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "projectId", "version", "platform", "fileName", "sourceCode", "changeSummary", "createdByAgent", "isStable", "repaintRiskNotes", "validationPassed", "validationSummary", "createdAt", "updatedAt"]
+    },
+    "IndicatorBuild": {
+      "title": "IndicatorBuild",
+      "description": "Compilation and validation job record for MT5 MetaEditor worker or Pine v6 validator.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "projectId": { "type": "string" },
+        "sourceVersion": { "type": "string" },
+        "platform": { "type": "string", "enum": ["MT5", "TRADINGVIEW"] },
+        "compiler": { "type": "string" },
+        "buildStatus": { "type": "string", "enum": ["WAITING", "PROCESSING", "COMPILED_SUCCESS", "COMPILED_WARNINGS", "COMPILATION_FAILED", "COMPILER_UNAVAILABLE", "VALIDATED_UNCOMPILED"] },
+        "errorsSummary": { "type": "string" },
+        "warningsSummary": { "type": "string" },
+        "outputFileName": { "type": "string" },
+        "hasCompiledBinary": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "projectId", "sourceVersion", "platform", "compiler", "buildStatus", "errorsSummary", "warningsSummary", "outputFileName", "hasCompiledBinary", "createdAt", "updatedAt"]
+    },
+    "IndicatorDownload": {
+      "title": "IndicatorDownload",
+      "description": "Append-only indicator file export and download audit record.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "projectId": { "type": "string" },
+        "projectName": { "type": "string" },
+        "version": { "type": "string" },
+        "platform": { "type": "string" },
+        "fileType": { "type": "string", "enum": ["MQ5", "EX5", "PINE", "TXT", "ZIP"] },
+        "fileName": { "type": "string" },
+        "byteSize": { "type": "integer" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "projectId", "projectName", "version", "platform", "fileType", "fileName", "byteSize", "createdAt"]
+    },
+    "IndicatorPreset": {
+      "title": "IndicatorPreset",
+      "description": "Instrument- and timeframe-specific parameter preset for a Forge indicator.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "projectId": { "type": "string" },
+        "projectName": { "type": "string" },
+        "symbol": { "type": "string" },
+        "timeframe": { "type": "string" },
+        "presetName": { "type": "string" },
+        "settingsSummary": { "type": "string" },
+        "riskPerTradePct": { "type": "number" },
+        "drawingStyleSummary": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "projectId", "projectName", "symbol", "timeframe", "presetName", "settingsSummary", "riskPerTradePct", "drawingStyleSummary", "createdAt", "updatedAt"]
+    },
+    "AiUsageRecord": {
+      "title": "AiUsageRecord",
+      "description": "Append-only Gemini and DeepSeek API invocation telemetry record.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "provider": { "type": "string", "enum": ["GEMINI", "DEEPSEEK"] },
+        "modelId": { "type": "string" },
+        "agentName": { "type": "string" },
+        "mode": { "type": "string" },
+        "latencyMs": { "type": "integer" },
+        "totalTokens": { "type": "integer" },
+        "estimatedCostUsd": { "type": "number" },
+        "success": { "type": "boolean" },
+        "errorMessage": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "provider", "modelId", "agentName", "mode", "latencyMs", "totalTokens", "estimatedCostUsd", "success", "errorMessage", "createdAt"]
+    },
+    "AiCouncilRecord": {
+      "title": "AiCouncilRecord",
+      "description": "Append-only JAX-CORE Gemini vs DeepSeek AI Council comparison and verification record.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "prompt": { "type": "string" },
+        "mode": { "type": "string" },
+        "geminiSummary": { "type": "string" },
+        "deepseekSummary": { "type": "string" },
+        "agreements": { "type": "string" },
+        "disagreements": { "type": "string" },
+        "verifiedSummary": { "type": "string" },
+        "usedProviders": { "type": "array" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "prompt", "mode", "geminiSummary", "deepseekSummary", "agreements", "disagreements", "verifiedSummary", "usedProviders", "createdAt"]
+    },
+    "MarketplaceListing": {
+      "title": "MarketplaceListing",
+      "description": "Publicly browseable (signed-in) marketplace listing for community/VIP Forge indicators.",
+      "type": "object",
+      "properties": {
+        "creatorUid": { "type": "string" },
+        "creatorName": { "type": "string" },
+        "projectId": { "type": "string" },
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "category": { "type": "string" },
+        "platform": { "type": "string", "enum": ["MT5", "TRADINGVIEW", "DUAL"] },
+        "priceUsd": { "type": "number" },
+        "listingStatus": { "type": "string", "enum": ["PENDING_REVIEW", "APPROVED", "REJECTED", "ARCHIVED"] },
+        "version": { "type": "string" },
+        "mql5Source": { "type": "string" },
+        "pineSource": { "type": "string" },
+        "releaseNotes": { "type": "string" },
+        "downloadCount": { "type": "integer" },
+        "avgRating": { "type": "number" },
+        "reviewCount": { "type": "integer" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["creatorUid", "creatorName", "projectId", "name", "description", "category", "platform", "priceUsd", "listingStatus", "version", "mql5Source", "pineSource", "releaseNotes", "downloadCount", "avgRating", "reviewCount", "createdAt", "updatedAt"]
+    },
+    "IndicatorReview": {
+      "title": "IndicatorReview",
+      "description": "User rating and review on a Marketplace listing.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "reviewerName": { "type": "string" },
+        "listingId": { "type": "string" },
+        "rating": { "type": "integer" },
+        "reviewText": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "reviewerName", "listingId", "rating", "reviewText", "createdAt", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Per-user trading profile and risk governance settings."
+    },
+    "/users/{userId}/indicatorConfigs/{configId}": {
+      "schema": { "$ref": "#/entities/IndicatorConfig" },
+      "description": "Configuration and version metadata for each of the 30 VIP indicators."
+    },
+    "/users/{userId}/setups/{setupId}": {
+      "schema": { "$ref": "#/entities/SetupRecord" },
+      "description": "Generated setups with Entry, SL, TP1-TP3, and invalidation."
+    },
+    "/users/{userId}/backtests/{backtestId}": {
+      "schema": { "$ref": "#/entities/BacktestRecord" },
+      "description": "Historical backtest records and walk-forward validation results."
+    },
+    "/users/{userId}/strategies/{strategyId}": {
+      "schema": { "$ref": "#/entities/StrategyRecord" },
+      "description": "Versioned multi-indicator strategy definitions."
+    },
+    "/users/{userId}/learningJobs/{jobId}": {
+      "schema": { "$ref": "#/entities/LearningJobRecord" },
+      "description": "Self-learning experiments and model version promotions."
+    },
+    "/users/{userId}/tradeRecords/{tradeId}": {
+      "schema": { "$ref": "#/entities/TradeJournalRecord" },
+      "description": "Trade investigator records and signal outcomes."
+    },
+    "/users/{userId}/alerts/{alertId}": {
+      "schema": { "$ref": "#/entities/AlertRecord" },
+      "description": "User-scoped alerts and risk notifications."
+    },
+    "/users/{userId}/integrations/{integrationId}": {
+      "schema": { "$ref": "#/entities/IntegrationRecord" },
+      "description": "MT5 EA bridge, compiler worker, TradingView webhook, and market API configurations."
+    },
+    "/users/{userId}/approvalRequests/{requestId}": {
+      "schema": { "$ref": "#/entities/ApprovalRequestRecord" },
+      "description": "Explicit user approval queue for sensitive actions."
+    },
+    "/users/{userId}/auditLogs/{logId}": {
+      "schema": { "$ref": "#/entities/AuditLogRecord" },
+      "description": "Append-only governance and security audit log."
+    },
+    "/users/{userId}/indicatorProjects/{projectId}": {
+      "schema": { "$ref": "#/entities/IndicatorProject" },
+      "description": "User-owned downloadable indicator projects inside Indicator Forge."
+    },
+    "/users/{userId}/indicatorSources/{sourceId}": {
+      "schema": { "$ref": "#/entities/IndicatorSource" },
+      "description": "Versioned MQL5 and Pine Script v6 source code snapshots."
+    },
+    "/users/{userId}/indicatorBuilds/{buildId}": {
+      "schema": { "$ref": "#/entities/IndicatorBuild" },
+      "description": "Compilation and validation build records."
+    },
+    "/users/{userId}/indicatorDownloads/{downloadId}": {
+      "schema": { "$ref": "#/entities/IndicatorDownload" },
+      "description": "Append-only indicator file download history."
+    },
+    "/users/{userId}/indicatorPresets/{presetId}": {
+      "schema": { "$ref": "#/entities/IndicatorPreset" },
+      "description": "Saved instrument/timeframe presets for Forge indicators."
+    },
+    "/users/{userId}/aiUsageLogs/{usageId}": {
+      "schema": { "$ref": "#/entities/AiUsageRecord" },
+      "description": "Append-only Gemini & DeepSeek API telemetry logs."
+    },
+    "/users/{userId}/aiCouncilRuns/{councilId}": {
+      "schema": { "$ref": "#/entities/AiCouncilRecord" },
+      "description": "Append-only JAX-CORE Gemini vs DeepSeek debate records."
+    },
+    "/marketplaceListings/{listingId}": {
+      "schema": { "$ref": "#/entities/MarketplaceListing" },
+      "description": "Indicator Marketplace listings moderated by Admin."
+    },
+    "/marketplaceListings/{listingId}/reviews/{reviewId}": {
+      "schema": { "$ref": "#/entities/IndicatorReview" },
+      "description": "Ratings and reviews on marketplace indicator listings."
+    }
+  }
+}

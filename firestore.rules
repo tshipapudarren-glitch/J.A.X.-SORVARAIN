@@ -1,0 +1,659 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Global default-deny safety net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() >= 1 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        request.auth.token.email == 'impuriumai@gmail.com' ||
+        (exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin')
+      );
+    }
+
+    function isValidStringList(arr, maxLen) {
+      return arr is list && arr.size() <= maxLen && (arr.size() == 0 || arr[0] is string);
+    }
+
+    function isValidUserProfile(data, userId) {
+      return data.userId is string && data.userId == userId &&
+             data.displayName is string && data.displayName.size() >= 1 && data.displayName.size() <= 80 &&
+             data.email is string && data.email.size() >= 3 && data.email.size() <= 160 &&
+             data.role in ['trader', 'analyst'] &&
+             data.accountBalance is number && data.accountBalance >= 0 &&
+             data.riskPerTradePct is number && data.riskPerTradePct > 0 && data.riskPerTradePct <= 10 &&
+             data.dailyLossLimitPct is number && data.dailyLossLimitPct > 0 && data.dailyLossLimitPct <= 25 &&
+             data.weeklyLossLimitPct is number && data.weeklyLossLimitPct > 0 && data.weeklyLossLimitPct <= 50 &&
+             data.maxDrawdownPct is number && data.maxDrawdownPct > 0 && data.maxDrawdownPct <= 80 &&
+             data.liveTradingEnabled is bool &&
+             data.preferredSymbol is string && data.preferredSymbol.size() >= 1 && data.preferredSymbol.size() <= 24 &&
+             data.preferredTimeframe is string && data.preferredTimeframe.size() >= 1 && data.preferredTimeframe.size() <= 10;
+    }
+
+    function isValidIndicatorConfig(data, userId) {
+      return data.userId is string && data.userId == userId &&
+             data.indicatorNumber is int && data.indicatorNumber >= 1 && data.indicatorNumber <= 30 &&
+             data.name is string && data.name.size() >= 1 && data.name.size() <= 80 &&
+             data.category in ['MARKET_INTELLIGENCE', 'VIP_SETUP', 'PREDICTIVE_QUANT'] &&
+             data.enabled is bool &&
+             data.sensitivity is number && data.sensitivity >= 0.1 && data.sensitivity <= 5.0 &&
+             data.lookbackPeriod is int && data.lookbackPeriod >= 5 && data.lookbackPeriod <= 500 &&
+             data.minConfidence is number && data.minConfidence >= 0 && data.minConfidence <= 100 &&
+             data.showChartOverlay is bool &&
+             data.alertsEnabled is bool &&
+             data.activeVersion is string && data.activeVersion.size() >= 1 && data.activeVersion.size() <= 24 &&
+             data.learningStatus in ['IDLE', 'EVALUATED', 'PENDING_APPROVAL', 'DECAY_ALERT'];
+    }
+
+    function isValidSetupRecord(data, userId) {
+      return data.userId is string && data.userId == userId &&
+             data.symbol is string && data.symbol.size() >= 1 && data.symbol.size() <= 24 &&
+             data.timeframe is string && data.timeframe.size() >= 1 && data.timeframe.size() <= 10 &&
+             data.direction in ['BUY', 'SELL'] &&
+             data.status in ['DEVELOPING', 'CONFIRMED', 'INVALIDATED', 'COMPLETED'] &&
+             data.entryPrice is number &&
+             data.entryZoneLow is number &&
+             data.entryZoneHigh is number &&
+             data.stopLoss is number &&
+             data.tp1 is number &&
+             data.tp2 is number &&
+             data.tp3 is number &&
+             data.riskReward is number &&
+             data.confluenceScore is number && data.confluenceScore >= 0 && data.confluenceScore <= 100 &&
+             data.regime is string && data.regime.size() >= 1 && data.regime.size() <= 40 &&
+             data.sessionName is string && data.sessionName.size() >= 1 && data.sessionName.size() <= 40 &&
+             data.invalidationLevel is number &&
+             data.explanation is string && data.explanation.size() >= 1 && data.explanation.size() <= 800 &&
+             data.dnaFingerprint is string && data.dnaFingerprint.size() >= 1 && data.dnaFingerprint.size() <= 64 &&
+             isValidStringList(data.confirmingIndicators, 30) &&
+             isValidStringList(data.conflictingIndicators, 30);
+    }
+
+    function isValidBacktestRecord(data, userId) {
+      return data.userId is string && data.userId == userId &&
+             data.strategyName is string && data.strategyName.size() >= 1 && data.strategyName.size() <= 100 &&
+             data.symbol is string && data.symbol.size() >= 1 && data.symbol.size() <= 24 &&
+             data.timeframe is string && data.timeframe.size() >= 1 && data.timeframe.size() <= 10 &&
+             isValidStringList(data.indicatorIds, 30) &&
+             data.totalTrades is int && data.totalTrades >= 0 &&
+             data.winningTrades is int && data.winningTrades >= 0 &&
+             data.losingTrades is int && data.losingTrades >= 0 &&
+             data.winRate is number && data.winRate >= 0 && data.winRate <= 100 &&
+             data.netProfit is number &&
+             data.profitFactor is number && data.profitFactor >= 0 &&
+             data.maxDrawdownPct is number && data.maxDrawdownPct >= 0 &&
+             data.avgR is number &&
+             data.expectancy is number &&
+             data.sharpeRatio is number &&
+             data.spreadPips is number && data.spreadPips >= 0 &&
+             data.commissionPct is number && data.commissionPct >= 0 &&
+             data.slippagePips is number && data.slippagePips >= 0 &&
+             data.walkForwardPassed is bool &&
+             data.outOfSampleScore is number && data.outOfSampleScore >= 0 && data.outOfSampleScore <= 100;
+    }
+
+    function isValidStrategyRecord(data, userId) {
+      return data.userId is string && data.userId == userId &&
+             data.name is string && data.name.size() >= 1 && data.name.size() <= 100 &&
+             data.description is string && data.description.size() <= 500 &&
+             isValidStringList(data.indicatorIds, 30) &&
+             data.entryTimeframe is string && data.entryTimeframe.size() >= 1 && data.entryTimeframe.size() <= 10 &&
+             data.biasTimeframe is string && data.biasTimeframe.size() >= 1 && data.biasTimeframe.size() <= 10 &&
+             data.minScore is number && data.minScore >= 0 && data.minScore <= 100 &&
+             data.minRiskReward is number && data.minRiskReward >= 0.5 && data.minRiskReward <= 20 &&
+             data.version is int && data.version >= 1 &&
+             data.isProduction is bool &&
+             data.status in ['DRAFT', 'VALIDATED', 'PRODUCTION', 'ROLLED_BACK'];
+    }
+
+    function isValidLearningJobRecord(data, userId) {
+      return data.userId is string && data.userId == userId &&
+             data.indicatorNumber is int && data.indicatorNumber >= 1 && data.indicatorNumber <= 30 &&
+             data.indicatorName is string && data.indicatorName.size() >= 1 && data.indicatorName.size() <= 80 &&
+             data.symbol is string && data.symbol.size() >= 1 && data.symbol.size() <= 24 &&
+             data.timeframe is string && data.timeframe.size() >= 1 && data.timeframe.size() <= 10 &&
+             data.trainingSamples is int && data.trainingSamples >= 0 &&
+             data.validationSamples is int && data.validationSamples >= 0 &&
+             data.previousWinRate is number && data.previousWinRate >= 0 && data.previousWinRate <= 100 &&
+             data.candidateWinRate is number && data.candidateWinRate >= 0 && data.candidateWinRate <= 100 &&
+             data.previousExpectancy is number &&
+             data.candidateExpectancy is number &&
+             data.proposedChangeSummary is string && data.proposedChangeSummary.size() >= 1 && data.proposedChangeSummary.size() <= 500 &&
+             data.modelVersion is string && data.modelVersion.size() >= 1 && data.modelVersion.size() <= 24 &&
+             data.approvalStatus in ['PENDING_APPROVAL', 'APPROVED', 'ROLLED_BACK', 'REJECTED'];
+    }
+
+    function isValidTradeJournalRecord(data, userId) {
+      return data.userId is string && data.userId == userId &&
+             data.symbol is string && data.symbol.size() >= 1 && data.symbol.size() <= 24 &&
+             data.timeframe is string && data.timeframe.size() >= 1 && data.timeframe.size() <= 10 &&
+             data.direction in ['BUY', 'SELL'] &&
+             data.source in ['SIGNAL_TRACKER', 'MT5_IMPORT', 'BACKTEST'] &&
+             data.entryPrice is number &&
+             data.exitPrice is number &&
+             data.stopLoss is number &&
+             data.tp1 is number &&
+             data.pnlR is number &&
+             data.mfeR is number &&
+             data.maeR is number &&
+             data.regime is string && data.regime.size() >= 1 && data.regime.size() <= 40 &&
+             data.notes is string && data.notes.size() <= 1000 &&
+             data.status in ['OPEN', 'CLOSED', 'CANCELLED'];
+    }
+
+    function isValidAlertRecord(data, userId) {
+      return data.userId is string && data.userId == userId &&
+             data.symbol is string && data.symbol.size() >= 1 && data.symbol.size() <= 24 &&
+             data.timeframe is string && data.timeframe.size() >= 1 && data.timeframe.size() <= 10 &&
+             data.category is string && data.category.size() >= 1 && data.category.size() <= 40 &&
+             data.title is string && data.title.size() >= 1 && data.title.size() <= 120 &&
+             data.message is string && data.message.size() >= 1 && data.message.size() <= 500 &&
+             data.severity in ['INFO', 'SIGNAL', 'WARNING', 'CRITICAL'] &&
+             data.acknowledged is bool;
+    }
+
+    function isValidIntegrationRecord(data, userId) {
+      return data.userId is string && data.userId == userId &&
+             data.type in ['MT5_BRIDGE', 'MT5_COMPILER_WORKER', 'TRADINGVIEW_WEBHOOK', 'MARKET_DATA_API'] &&
+             data.name is string && data.name.size() >= 1 && data.name.size() <= 80 &&
+             data.endpointUrl is string && data.endpointUrl.size() <= 300 &&
+             data.status in ['DISCONNECTED', 'CONFIGURED', 'CONNECTED', 'ERROR'] &&
+             data.liveExecutionAllowed is bool &&
+             data.lastSyncSummary is string && data.lastSyncSummary.size() <= 300;
+    }
+
+    function isValidApprovalRequestRecord(data, userId) {
+      return data.userId is string && data.userId == userId &&
+             data.actionType in ['ENABLE_LIVE_TRADING', 'DEPLOY_MODEL_VERSION', 'DEPLOY_STRATEGY', 'UPDATE_RISK_LIMITS', 'ROLLBACK_MODEL'] &&
+             data.targetId is string && data.targetId.size() >= 1 && data.targetId.size() <= 128 &&
+             data.summary is string && data.summary.size() >= 1 && data.summary.size() <= 500 &&
+             data.status in ['PENDING', 'APPROVED', 'REJECTED'] &&
+             data.requestedBy is string && data.requestedBy.size() >= 1 && data.requestedBy.size() <= 80;
+    }
+
+    function isValidAuditLogRecord(data, userId) {
+      return data.userId is string && data.userId == userId &&
+             data.action is string && data.action.size() >= 1 && data.action.size() <= 100 &&
+             data.actor is string && data.actor.size() >= 1 && data.actor.size() <= 80 &&
+             data.details is string && data.details.size() >= 1 && data.details.size() <= 500 &&
+             data.severity in ['INFO', 'WARNING', 'CRITICAL'];
+    }
+
+    function isValidIndicatorProject(data, userId) {
+      return data.userId is string && data.userId == userId &&
+             data.name is string && data.name.size() >= 1 && data.name.size() <= 100 &&
+             data.description is string && data.description.size() <= 1000 &&
+             data.category is string && data.category.size() >= 1 && data.category.size() <= 50 &&
+             data.platform in ['MT5', 'TRADINGVIEW', 'DUAL'] &&
+             data.complexity in ['SIMPLE', 'ADVANCED', 'PRO', 'AI_ASSISTED', 'CUSTOM'] &&
+             data.devStatus in ['DRAFT', 'VALIDATED', 'COMPILED', 'FAILED'] &&
+             data.currentVersion is string && data.currentVersion.size() >= 1 && data.currentVersion.size() <= 24 &&
+             data.visibility in ['PRIVATE', 'MARKETPLACE_SUBMITTED', 'PUBLIC'] &&
+             data.isFavorite is bool &&
+             isValidStringList(data.mtfTimeframes, 12) &&
+             data.setupPattern is string && data.setupPattern.size() >= 1 && data.setupPattern.size() <= 60 &&
+             data.closedCandleOnly is bool &&
+             data.entryColorHex is string && data.entryColorHex.size() <= 16 &&
+             data.slColorHex is string && data.slColorHex.size() <= 16 &&
+             data.tpColorHex is string && data.tpColorHex.size() <= 16 &&
+             data.equivalenceNotes is string && data.equivalenceNotes.size() <= 3000 &&
+             data.downloadCount is int && data.downloadCount >= 0;
+    }
+
+    function isValidIndicatorSource(data, userId) {
+      return data.userId is string && data.userId == userId &&
+             data.projectId is string && data.projectId.size() >= 1 && data.projectId.size() <= 128 &&
+             data.version is string && data.version.size() >= 1 && data.version.size() <= 24 &&
+             data.platform in ['MT5', 'TRADINGVIEW'] &&
+             data.fileName is string && data.fileName.size() >= 1 && data.fileName.size() <= 120 &&
+             data.sourceCode is string && data.sourceCode.size() >= 1 && data.sourceCode.size() <= 200000 &&
+             data.changeSummary is string && data.changeSummary.size() <= 400 &&
+             data.createdByAgent is string && data.createdByAgent.size() >= 1 && data.createdByAgent.size() <= 80 &&
+             data.isStable is bool &&
+             data.repaintRiskNotes is string && data.repaintRiskNotes.size() <= 1000 &&
+             data.validationPassed is bool &&
+             data.validationSummary is string && data.validationSummary.size() <= 1500;
+    }
+
+    function isValidIndicatorBuild(data, userId) {
+      return data.userId is string && data.userId == userId &&
+             data.projectId is string && data.projectId.size() >= 1 && data.projectId.size() <= 128 &&
+             data.sourceVersion is string && data.sourceVersion.size() >= 1 && data.sourceVersion.size() <= 24 &&
+             data.platform in ['MT5', 'TRADINGVIEW'] &&
+             data.compiler is string && data.compiler.size() >= 1 && data.compiler.size() <= 80 &&
+             data.buildStatus in ['WAITING', 'PROCESSING', 'COMPILED_SUCCESS', 'COMPILED_WARNINGS', 'COMPILATION_FAILED', 'COMPILER_UNAVAILABLE', 'VALIDATED_UNCOMPILED'] &&
+             data.errorsSummary is string && data.errorsSummary.size() <= 4000 &&
+             data.warningsSummary is string && data.warningsSummary.size() <= 4000 &&
+             data.outputFileName is string && data.outputFileName.size() <= 120 &&
+             data.hasCompiledBinary is bool;
+    }
+
+    function isValidIndicatorDownload(data, userId) {
+      return data.userId is string && data.userId == userId &&
+             data.projectId is string && data.projectId.size() >= 1 && data.projectId.size() <= 128 &&
+             data.projectName is string && data.projectName.size() >= 1 && data.projectName.size() <= 100 &&
+             data.version is string && data.version.size() >= 1 && data.version.size() <= 24 &&
+             data.platform is string && data.platform.size() >= 1 && data.platform.size() <= 24 &&
+             data.fileType in ['MQ5', 'EX5', 'PINE', 'TXT', 'ZIP'] &&
+             data.fileName is string && data.fileName.size() >= 1 && data.fileName.size() <= 120 &&
+             data.byteSize is int && data.byteSize >= 0;
+    }
+
+    function isValidIndicatorPreset(data, userId) {
+      return data.userId is string && data.userId == userId &&
+             data.projectId is string && data.projectId.size() >= 1 && data.projectId.size() <= 128 &&
+             data.projectName is string && data.projectName.size() >= 1 && data.projectName.size() <= 100 &&
+             data.symbol is string && data.symbol.size() >= 1 && data.symbol.size() <= 24 &&
+             data.timeframe is string && data.timeframe.size() >= 1 && data.timeframe.size() <= 10 &&
+             data.presetName is string && data.presetName.size() >= 1 && data.presetName.size() <= 80 &&
+             data.settingsSummary is string && data.settingsSummary.size() <= 2000 &&
+             data.riskPerTradePct is number && data.riskPerTradePct > 0 && data.riskPerTradePct <= 10 &&
+             data.drawingStyleSummary is string && data.drawingStyleSummary.size() <= 500;
+    }
+
+    function isValidAiUsageLog(data, userId) {
+      return data.userId is string && data.userId == userId &&
+             data.provider in ['GEMINI', 'DEEPSEEK'] &&
+             data.modelId is string && data.modelId.size() >= 1 && data.modelId.size() <= 80 &&
+             data.agentName is string && data.agentName.size() >= 1 && data.agentName.size() <= 80 &&
+             data.mode is string && data.mode.size() >= 1 && data.mode.size() <= 30 &&
+             data.latencyMs is int && data.latencyMs >= 0 &&
+             data.totalTokens is int && data.totalTokens >= 0 &&
+             data.estimatedCostUsd is number && data.estimatedCostUsd >= 0 &&
+             data.success is bool &&
+             data.errorMessage is string && data.errorMessage.size() <= 500;
+    }
+
+    function isValidAiCouncilRun(data, userId) {
+      return data.userId is string && data.userId == userId &&
+             data.prompt is string && data.prompt.size() >= 1 && data.prompt.size() <= 2000 &&
+             data.mode is string && data.mode.size() >= 1 && data.mode.size() <= 30 &&
+             data.geminiSummary is string && data.geminiSummary.size() <= 8000 &&
+             data.deepseekSummary is string && data.deepseekSummary.size() <= 8000 &&
+             data.agreements is string && data.agreements.size() <= 4000 &&
+             data.disagreements is string && data.disagreements.size() <= 4000 &&
+             data.verifiedSummary is string && data.verifiedSummary.size() <= 8000 &&
+             isValidStringList(data.usedProviders, 4);
+    }
+
+    function isValidMarketplaceListing(data) {
+      return data.creatorUid is string && data.creatorUid.size() >= 1 && data.creatorUid.size() <= 128 &&
+             data.creatorName is string && data.creatorName.size() >= 1 && data.creatorName.size() <= 80 &&
+             data.projectId is string && data.projectId.size() >= 1 && data.projectId.size() <= 128 &&
+             data.name is string && data.name.size() >= 1 && data.name.size() <= 100 &&
+             data.description is string && data.description.size() <= 2000 &&
+             data.category is string && data.category.size() >= 1 && data.category.size() <= 50 &&
+             data.platform in ['MT5', 'TRADINGVIEW', 'DUAL'] &&
+             data.priceUsd is number && data.priceUsd >= 0 &&
+             data.listingStatus in ['PENDING_REVIEW', 'APPROVED', 'REJECTED', 'ARCHIVED'] &&
+             data.version is string && data.version.size() >= 1 && data.version.size() <= 24 &&
+             data.mql5Source is string && data.mql5Source.size() <= 200000 &&
+             data.pineSource is string && data.pineSource.size() <= 200000 &&
+             data.releaseNotes is string && data.releaseNotes.size() <= 2000 &&
+             data.downloadCount is int && data.downloadCount >= 0 &&
+             data.avgRating is number && data.avgRating >= 0 && data.avgRating <= 5 &&
+             data.reviewCount is int && data.reviewCount >= 0;
+    }
+
+    function isValidIndicatorReview(data, listingId) {
+      return data.userId is string && data.userId == request.auth.uid &&
+             data.reviewerName is string && data.reviewerName.size() >= 1 && data.reviewerName.size() <= 80 &&
+             data.listingId is string && data.listingId == listingId &&
+             data.rating is int && data.rating >= 1 && data.rating <= 5 &&
+             data.reviewText is string && data.reviewText.size() >= 1 && data.reviewText.size() <= 1000;
+    }
+
+    match /users/{userId} {
+      allow get, list: if isOwner(userId) && isValidId(userId);
+      allow create: if isOwner(userId) && isValidId(userId) &&
+                       incoming().keys().hasAll(['userId', 'displayName', 'email', 'role', 'accountBalance', 'riskPerTradePct', 'dailyLossLimitPct', 'weeklyLossLimitPct', 'maxDrawdownPct', 'liveTradingEnabled', 'preferredSymbol', 'preferredTimeframe', 'createdAt', 'updatedAt']) &&
+                       incoming().keys().hasOnly(['userId', 'displayName', 'email', 'role', 'accountBalance', 'riskPerTradePct', 'dailyLossLimitPct', 'weeklyLossLimitPct', 'maxDrawdownPct', 'liveTradingEnabled', 'preferredSymbol', 'preferredTimeframe', 'createdAt', 'updatedAt']) &&
+                       incoming().liveTradingEnabled == false &&
+                       incoming().createdAt is timestamp && incoming().createdAt <= request.time &&
+                       incoming().updatedAt is timestamp && incoming().updatedAt <= request.time &&
+                       isValidUserProfile(incoming(), userId);
+      allow update: if isOwner(userId) && isValidId(userId) &&
+                       isValidUserProfile(incoming(), userId) &&
+                       incoming().userId == existing().userId &&
+                       incoming().role == existing().role &&
+                       incoming().createdAt == existing().createdAt &&
+                       incoming().updatedAt is timestamp && incoming().updatedAt <= request.time &&
+                       incoming().diff(existing()).affectedKeys().hasOnly(['displayName', 'accountBalance', 'riskPerTradePct', 'dailyLossLimitPct', 'weeklyLossLimitPct', 'maxDrawdownPct', 'liveTradingEnabled', 'preferredSymbol', 'preferredTimeframe', 'updatedAt']);
+      allow delete: if isOwner(userId) && isValidId(userId);
+
+      match /indicatorConfigs/{configId} {
+        allow list: if isOwner(userId);
+        allow get, delete: if isOwner(userId) && isValidId(configId);
+        allow create: if isOwner(userId) && isValidId(configId) &&
+                         incoming().keys().hasAll(['userId', 'indicatorNumber', 'name', 'category', 'enabled', 'sensitivity', 'lookbackPeriod', 'minConfidence', 'showChartOverlay', 'alertsEnabled', 'activeVersion', 'learningStatus', 'createdAt', 'updatedAt']) &&
+                         incoming().keys().hasOnly(['userId', 'indicatorNumber', 'name', 'category', 'enabled', 'sensitivity', 'lookbackPeriod', 'minConfidence', 'showChartOverlay', 'alertsEnabled', 'activeVersion', 'learningStatus', 'createdAt', 'updatedAt']) &&
+                         incoming().createdAt is timestamp && incoming().createdAt <= request.time &&
+                         incoming().updatedAt is timestamp && incoming().updatedAt <= request.time &&
+                         isValidIndicatorConfig(incoming(), userId);
+        allow update: if isOwner(userId) && isValidId(configId) &&
+                         isValidIndicatorConfig(incoming(), userId) &&
+                         incoming().userId == existing().userId &&
+                         incoming().indicatorNumber == existing().indicatorNumber &&
+                         incoming().createdAt == existing().createdAt &&
+                         incoming().updatedAt is timestamp && incoming().updatedAt <= request.time &&
+                         incoming().diff(existing()).affectedKeys().hasOnly(['enabled', 'sensitivity', 'lookbackPeriod', 'minConfidence', 'showChartOverlay', 'alertsEnabled', 'activeVersion', 'learningStatus', 'updatedAt']);
+      }
+
+      match /setups/{setupId} {
+        allow list: if isOwner(userId);
+        allow get, delete: if isOwner(userId) && isValidId(setupId);
+        allow create: if isOwner(userId) && isValidId(setupId) &&
+                         incoming().keys().hasAll(['userId', 'symbol', 'timeframe', 'direction', 'status', 'entryPrice', 'entryZoneLow', 'entryZoneHigh', 'stopLoss', 'tp1', 'tp2', 'tp3', 'riskReward', 'confluenceScore', 'regime', 'sessionName', 'invalidationLevel', 'explanation', 'dnaFingerprint', 'confirmingIndicators', 'conflictingIndicators', 'createdAt', 'updatedAt']) &&
+                         incoming().keys().hasOnly(['userId', 'symbol', 'timeframe', 'direction', 'status', 'entryPrice', 'entryZoneLow', 'entryZoneHigh', 'stopLoss', 'tp1', 'tp2', 'tp3', 'riskReward', 'confluenceScore', 'regime', 'sessionName', 'invalidationLevel', 'explanation', 'dnaFingerprint', 'confirmingIndicators', 'conflictingIndicators', 'createdAt', 'updatedAt']) &&
+                         incoming().createdAt is timestamp && incoming().createdAt <= request.time &&
+                         incoming().updatedAt is timestamp && incoming().updatedAt <= request.time &&
+                         isValidSetupRecord(incoming(), userId);
+        allow update: if isOwner(userId) && isValidId(setupId) &&
+                         isValidSetupRecord(incoming(), userId) &&
+                         existing().status in ['DEVELOPING', 'CONFIRMED'] &&
+                         incoming().userId == existing().userId &&
+                         incoming().createdAt == existing().createdAt &&
+                         incoming().updatedAt is timestamp && incoming().updatedAt <= request.time &&
+                         incoming().diff(existing()).affectedKeys().hasOnly(['status', 'updatedAt']);
+      }
+
+      match /backtests/{backtestId} {
+        allow list: if isOwner(userId);
+        allow get, delete: if isOwner(userId) && isValidId(backtestId);
+        allow create: if isOwner(userId) && isValidId(backtestId) &&
+                         incoming().keys().hasAll(['userId', 'strategyName', 'symbol', 'timeframe', 'indicatorIds', 'totalTrades', 'winningTrades', 'losingTrades', 'winRate', 'netProfit', 'profitFactor', 'maxDrawdownPct', 'avgR', 'expectancy', 'sharpeRatio', 'spreadPips', 'commissionPct', 'slippagePips', 'walkForwardPassed', 'outOfSampleScore', 'createdAt', 'updatedAt']) &&
+                         incoming().keys().hasOnly(['userId', 'strategyName', 'symbol', 'timeframe', 'indicatorIds', 'totalTrades', 'winningTrades', 'losingTrades', 'winRate', 'netProfit', 'profitFactor', 'maxDrawdownPct', 'avgR', 'expectancy', 'sharpeRatio', 'spreadPips', 'commissionPct', 'slippagePips', 'walkForwardPassed', 'outOfSampleScore', 'createdAt', 'updatedAt']) &&
+                         incoming().createdAt is timestamp && incoming().createdAt <= request.time &&
+                         incoming().updatedAt is timestamp && incoming().updatedAt <= request.time &&
+                         isValidBacktestRecord(incoming(), userId);
+        allow update: if false;
+      }
+
+      match /strategies/{strategyId} {
+        allow list: if isOwner(userId);
+        allow get, delete: if isOwner(userId) && isValidId(strategyId);
+        allow create: if isOwner(userId) && isValidId(strategyId) &&
+                         incoming().keys().hasAll(['userId', 'name', 'description', 'indicatorIds', 'entryTimeframe', 'biasTimeframe', 'minScore', 'minRiskReward', 'version', 'isProduction', 'status', 'createdAt', 'updatedAt']) &&
+                         incoming().keys().hasOnly(['userId', 'name', 'description', 'indicatorIds', 'entryTimeframe', 'biasTimeframe', 'minScore', 'minRiskReward', 'version', 'isProduction', 'status', 'createdAt', 'updatedAt']) &&
+                         incoming().createdAt is timestamp && incoming().createdAt <= request.time &&
+                         incoming().updatedAt is timestamp && incoming().updatedAt <= request.time &&
+                         isValidStrategyRecord(incoming(), userId);
+        allow update: if isOwner(userId) && isValidId(strategyId) &&
+                         isValidStrategyRecord(incoming(), userId) &&
+                         incoming().userId == existing().userId &&
+                         incoming().createdAt == existing().createdAt &&
+                         incoming().updatedAt is timestamp && incoming().updatedAt <= request.time &&
+                         incoming().diff(existing()).affectedKeys().hasOnly(['name', 'description', 'indicatorIds', 'entryTimeframe', 'biasTimeframe', 'minScore', 'minRiskReward', 'version', 'isProduction', 'status', 'updatedAt']);
+      }
+
+      match /learningJobs/{jobId} {
+        allow list: if isOwner(userId);
+        allow get, delete: if isOwner(userId) && isValidId(jobId);
+        allow create: if isOwner(userId) && isValidId(jobId) &&
+                         incoming().keys().hasAll(['userId', 'indicatorNumber', 'indicatorName', 'symbol', 'timeframe', 'trainingSamples', 'validationSamples', 'previousWinRate', 'candidateWinRate', 'previousExpectancy', 'candidateExpectancy', 'proposedChangeSummary', 'modelVersion', 'approvalStatus', 'createdAt', 'updatedAt']) &&
+                         incoming().keys().hasOnly(['userId', 'indicatorNumber', 'indicatorName', 'symbol', 'timeframe', 'trainingSamples', 'validationSamples', 'previousWinRate', 'candidateWinRate', 'previousExpectancy', 'candidateExpectancy', 'proposedChangeSummary', 'modelVersion', 'approvalStatus', 'createdAt', 'updatedAt']) &&
+                         incoming().createdAt is timestamp && incoming().createdAt <= request.time &&
+                         incoming().updatedAt is timestamp && incoming().updatedAt <= request.time &&
+                         isValidLearningJobRecord(incoming(), userId);
+        allow update: if isOwner(userId) && isValidId(jobId) &&
+                         isValidLearningJobRecord(incoming(), userId) &&
+                         incoming().userId == existing().userId &&
+                         incoming().createdAt == existing().createdAt &&
+                         incoming().updatedAt is timestamp && incoming().updatedAt <= request.time &&
+                         incoming().diff(existing()).affectedKeys().hasOnly(['approvalStatus', 'updatedAt']);
+      }
+
+      match /tradeRecords/{tradeId} {
+        allow list: if isOwner(userId);
+        allow get, delete: if isOwner(userId) && isValidId(tradeId);
+        allow create: if isOwner(userId) && isValidId(tradeId) &&
+                         incoming().keys().hasAll(['userId', 'symbol', 'timeframe', 'direction', 'source', 'entryPrice', 'exitPrice', 'stopLoss', 'tp1', 'pnlR', 'mfeR', 'maeR', 'regime', 'notes', 'status', 'createdAt', 'updatedAt']) &&
+                         incoming().keys().hasOnly(['userId', 'symbol', 'timeframe', 'direction', 'source', 'entryPrice', 'exitPrice', 'stopLoss', 'tp1', 'pnlR', 'mfeR', 'maeR', 'regime', 'notes', 'status', 'createdAt', 'updatedAt']) &&
+                         incoming().createdAt is timestamp && incoming().createdAt <= request.time &&
+                         incoming().updatedAt is timestamp && incoming().updatedAt <= request.time &&
+                         isValidTradeJournalRecord(incoming(), userId);
+        allow update: if isOwner(userId) && isValidId(tradeId) &&
+                         isValidTradeJournalRecord(incoming(), userId) &&
+                         incoming().userId == existing().userId &&
+                         incoming().createdAt == existing().createdAt &&
+                         incoming().updatedAt is timestamp && incoming().updatedAt <= request.time &&
+                         incoming().diff(existing()).affectedKeys().hasOnly(['exitPrice', 'pnlR', 'mfeR', 'maeR', 'notes', 'status', 'updatedAt']);
+      }
+
+      match /alerts/{alertId} {
+        allow list: if isOwner(userId);
+        allow get, delete: if isOwner(userId) && isValidId(alertId);
+        allow create: if isOwner(userId) && isValidId(alertId) &&
+                         incoming().keys().hasAll(['userId', 'symbol', 'timeframe', 'category', 'title', 'message', 'severity', 'acknowledged', 'createdAt', 'updatedAt']) &&
+                         incoming().keys().hasOnly(['userId', 'symbol', 'timeframe', 'category', 'title', 'message', 'severity', 'acknowledged', 'createdAt', 'updatedAt']) &&
+                         incoming().createdAt is timestamp && incoming().createdAt <= request.time &&
+                         incoming().updatedAt is timestamp && incoming().updatedAt <= request.time &&
+                         isValidAlertRecord(incoming(), userId);
+        allow update: if isOwner(userId) && isValidId(alertId) &&
+                         isValidAlertRecord(incoming(), userId) &&
+                         incoming().userId == existing().userId &&
+                         incoming().createdAt == existing().createdAt &&
+                         incoming().updatedAt is timestamp && incoming().updatedAt <= request.time &&
+                         incoming().diff(existing()).affectedKeys().hasOnly(['acknowledged', 'updatedAt']);
+      }
+
+      match /integrations/{integrationId} {
+        allow list: if isOwner(userId);
+        allow get, delete: if isOwner(userId) && isValidId(integrationId);
+        allow create: if isOwner(userId) && isValidId(integrationId) &&
+                         incoming().keys().hasAll(['userId', 'type', 'name', 'endpointUrl', 'status', 'liveExecutionAllowed', 'lastSyncSummary', 'createdAt', 'updatedAt']) &&
+                         incoming().keys().hasOnly(['userId', 'type', 'name', 'endpointUrl', 'status', 'liveExecutionAllowed', 'lastSyncSummary', 'createdAt', 'updatedAt']) &&
+                         incoming().liveExecutionAllowed == false &&
+                         incoming().createdAt is timestamp && incoming().createdAt <= request.time &&
+                         incoming().updatedAt is timestamp && incoming().updatedAt <= request.time &&
+                         isValidIntegrationRecord(incoming(), userId);
+        allow update: if isOwner(userId) && isValidId(integrationId) &&
+                         isValidIntegrationRecord(incoming(), userId) &&
+                         incoming().userId == existing().userId &&
+                         incoming().type == existing().type &&
+                         incoming().createdAt == existing().createdAt &&
+                         incoming().updatedAt is timestamp && incoming().updatedAt <= request.time &&
+                         incoming().diff(existing()).affectedKeys().hasOnly(['name', 'endpointUrl', 'status', 'liveExecutionAllowed', 'lastSyncSummary', 'updatedAt']);
+      }
+
+      match /approvalRequests/{requestId} {
+        allow list: if isOwner(userId);
+        allow get, delete: if isOwner(userId) && isValidId(requestId);
+        allow create: if isOwner(userId) && isValidId(requestId) &&
+                         incoming().keys().hasAll(['userId', 'actionType', 'targetId', 'summary', 'status', 'requestedBy', 'createdAt', 'updatedAt']) &&
+                         incoming().keys().hasOnly(['userId', 'actionType', 'targetId', 'summary', 'status', 'requestedBy', 'createdAt', 'updatedAt']) &&
+                         incoming().status == 'PENDING' &&
+                         incoming().createdAt is timestamp && incoming().createdAt <= request.time &&
+                         incoming().updatedAt is timestamp && incoming().updatedAt <= request.time &&
+                         isValidApprovalRequestRecord(incoming(), userId);
+        allow update: if isOwner(userId) && isValidId(requestId) &&
+                         isValidApprovalRequestRecord(incoming(), userId) &&
+                         existing().status == 'PENDING' &&
+                         incoming().status in ['APPROVED', 'REJECTED'] &&
+                         incoming().userId == existing().userId &&
+                         incoming().actionType == existing().actionType &&
+                         incoming().targetId == existing().targetId &&
+                         incoming().createdAt == existing().createdAt &&
+                         incoming().updatedAt is timestamp && incoming().updatedAt <= request.time &&
+                         incoming().diff(existing()).affectedKeys().hasOnly(['status', 'updatedAt']);
+      }
+
+      match /auditLogs/{logId} {
+        allow list: if isOwner(userId);
+        allow get: if isOwner(userId) && isValidId(logId);
+        allow create: if isOwner(userId) && isValidId(logId) &&
+                         incoming().keys().hasAll(['userId', 'action', 'actor', 'details', 'severity', 'createdAt']) &&
+                         incoming().keys().hasOnly(['userId', 'action', 'actor', 'details', 'severity', 'createdAt']) &&
+                         incoming().createdAt is timestamp && incoming().createdAt <= request.time &&
+                         isValidAuditLogRecord(incoming(), userId);
+        allow update, delete: if false;
+      }
+
+      match /indicatorProjects/{projectId} {
+        allow list: if isOwner(userId);
+        allow get, delete: if isOwner(userId) && isValidId(projectId);
+        allow create: if isOwner(userId) && isValidId(projectId) &&
+                         incoming().keys().hasAll(['userId', 'name', 'description', 'category', 'platform', 'complexity', 'devStatus', 'currentVersion', 'visibility', 'isFavorite', 'mtfTimeframes', 'setupPattern', 'closedCandleOnly', 'entryColorHex', 'slColorHex', 'tpColorHex', 'equivalenceNotes', 'downloadCount', 'createdAt', 'updatedAt']) &&
+                         incoming().keys().hasOnly(['userId', 'name', 'description', 'category', 'platform', 'complexity', 'devStatus', 'currentVersion', 'visibility', 'isFavorite', 'mtfTimeframes', 'setupPattern', 'closedCandleOnly', 'entryColorHex', 'slColorHex', 'tpColorHex', 'equivalenceNotes', 'downloadCount', 'createdAt', 'updatedAt']) &&
+                         incoming().createdAt is timestamp && incoming().createdAt <= request.time &&
+                         incoming().updatedAt is timestamp && incoming().updatedAt <= request.time &&
+                         isValidIndicatorProject(incoming(), userId);
+        allow update: if isOwner(userId) && isValidId(projectId) &&
+                         isValidIndicatorProject(incoming(), userId) &&
+                         incoming().userId == existing().userId &&
+                         incoming().createdAt == existing().createdAt &&
+                         incoming().updatedAt is timestamp && incoming().updatedAt <= request.time &&
+                         incoming().diff(existing()).affectedKeys().hasOnly(['name', 'description', 'category', 'platform', 'complexity', 'devStatus', 'currentVersion', 'visibility', 'isFavorite', 'mtfTimeframes', 'setupPattern', 'closedCandleOnly', 'entryColorHex', 'slColorHex', 'tpColorHex', 'equivalenceNotes', 'downloadCount', 'updatedAt']);
+      }
+
+      match /indicatorSources/{sourceId} {
+        allow list: if isOwner(userId);
+        allow get, delete: if isOwner(userId) && isValidId(sourceId);
+        allow create: if isOwner(userId) && isValidId(sourceId) &&
+                         incoming().keys().hasAll(['userId', 'projectId', 'version', 'platform', 'fileName', 'sourceCode', 'changeSummary', 'createdByAgent', 'isStable', 'repaintRiskNotes', 'validationPassed', 'validationSummary', 'createdAt', 'updatedAt']) &&
+                         incoming().keys().hasOnly(['userId', 'projectId', 'version', 'platform', 'fileName', 'sourceCode', 'changeSummary', 'createdByAgent', 'isStable', 'repaintRiskNotes', 'validationPassed', 'validationSummary', 'createdAt', 'updatedAt']) &&
+                         incoming().createdAt is timestamp && incoming().createdAt <= request.time &&
+                         incoming().updatedAt is timestamp && incoming().updatedAt <= request.time &&
+                         isValidIndicatorSource(incoming(), userId);
+        allow update: if isOwner(userId) && isValidId(sourceId) &&
+                         isValidIndicatorSource(incoming(), userId) &&
+                         incoming().userId == existing().userId &&
+                         incoming().projectId == existing().projectId &&
+                         incoming().createdAt == existing().createdAt &&
+                         incoming().updatedAt is timestamp && incoming().updatedAt <= request.time &&
+                         incoming().diff(existing()).affectedKeys().hasOnly(['isStable', 'changeSummary', 'repaintRiskNotes', 'validationPassed', 'validationSummary', 'updatedAt']);
+      }
+
+      match /indicatorBuilds/{buildId} {
+        allow list: if isOwner(userId);
+        allow get, delete: if isOwner(userId) && isValidId(buildId);
+        allow create: if isOwner(userId) && isValidId(buildId) &&
+                         incoming().keys().hasAll(['userId', 'projectId', 'sourceVersion', 'platform', 'compiler', 'buildStatus', 'errorsSummary', 'warningsSummary', 'outputFileName', 'hasCompiledBinary', 'createdAt', 'updatedAt']) &&
+                         incoming().keys().hasOnly(['userId', 'projectId', 'sourceVersion', 'platform', 'compiler', 'buildStatus', 'errorsSummary', 'warningsSummary', 'outputFileName', 'hasCompiledBinary', 'createdAt', 'updatedAt']) &&
+                         incoming().createdAt is timestamp && incoming().createdAt <= request.time &&
+                         incoming().updatedAt is timestamp && incoming().updatedAt <= request.time &&
+                         isValidIndicatorBuild(incoming(), userId);
+        allow update: if false;
+      }
+
+      match /indicatorDownloads/{downloadId} {
+        allow list: if isOwner(userId);
+        allow get: if isOwner(userId) && isValidId(downloadId);
+        allow create: if isOwner(userId) && isValidId(downloadId) &&
+                         incoming().keys().hasAll(['userId', 'projectId', 'projectName', 'version', 'platform', 'fileType', 'fileName', 'byteSize', 'createdAt']) &&
+                         incoming().keys().hasOnly(['userId', 'projectId', 'projectName', 'version', 'platform', 'fileType', 'fileName', 'byteSize', 'createdAt']) &&
+                         incoming().createdAt is timestamp && incoming().createdAt <= request.time &&
+                         isValidIndicatorDownload(incoming(), userId);
+        allow update, delete: if false;
+      }
+
+      match /indicatorPresets/{presetId} {
+        allow list: if isOwner(userId);
+        allow get, delete: if isOwner(userId) && isValidId(presetId);
+        allow create: if isOwner(userId) && isValidId(presetId) &&
+                         incoming().keys().hasAll(['userId', 'projectId', 'projectName', 'symbol', 'timeframe', 'presetName', 'settingsSummary', 'riskPerTradePct', 'drawingStyleSummary', 'createdAt', 'updatedAt']) &&
+                         incoming().keys().hasOnly(['userId', 'projectId', 'projectName', 'symbol', 'timeframe', 'presetName', 'settingsSummary', 'riskPerTradePct', 'drawingStyleSummary', 'createdAt', 'updatedAt']) &&
+                         incoming().createdAt is timestamp && incoming().createdAt <= request.time &&
+                         incoming().updatedAt is timestamp && incoming().updatedAt <= request.time &&
+                         isValidIndicatorPreset(incoming(), userId);
+        allow update: if isOwner(userId) && isValidId(presetId) &&
+                         isValidIndicatorPreset(incoming(), userId) &&
+                         incoming().userId == existing().userId &&
+                         incoming().createdAt == existing().createdAt &&
+                         incoming().updatedAt is timestamp && incoming().updatedAt <= request.time &&
+                         incoming().diff(existing()).affectedKeys().hasOnly(['presetName', 'symbol', 'timeframe', 'settingsSummary', 'riskPerTradePct', 'drawingStyleSummary', 'updatedAt']);
+      }
+
+      match /aiUsageLogs/{usageId} {
+        allow list: if isOwner(userId);
+        allow get: if isOwner(userId) && isValidId(usageId);
+        allow create: if isOwner(userId) && isValidId(usageId) &&
+                         incoming().keys().hasAll(['userId', 'provider', 'modelId', 'agentName', 'mode', 'latencyMs', 'totalTokens', 'estimatedCostUsd', 'success', 'errorMessage', 'createdAt']) &&
+                         incoming().keys().hasOnly(['userId', 'provider', 'modelId', 'agentName', 'mode', 'latencyMs', 'totalTokens', 'estimatedCostUsd', 'success', 'errorMessage', 'createdAt']) &&
+                         incoming().createdAt is timestamp && incoming().createdAt <= request.time &&
+                         isValidAiUsageLog(incoming(), userId);
+        allow update, delete: if false;
+      }
+
+      match /aiCouncilRuns/{councilId} {
+        allow list: if isOwner(userId);
+        allow get: if isOwner(userId) && isValidId(councilId);
+        allow create: if isOwner(userId) && isValidId(councilId) &&
+                         incoming().keys().hasAll(['userId', 'prompt', 'mode', 'geminiSummary', 'deepseekSummary', 'agreements', 'disagreements', 'verifiedSummary', 'usedProviders', 'createdAt']) &&
+                         incoming().keys().hasOnly(['userId', 'prompt', 'mode', 'geminiSummary', 'deepseekSummary', 'agreements', 'disagreements', 'verifiedSummary', 'usedProviders', 'createdAt']) &&
+                         incoming().createdAt is timestamp && incoming().createdAt <= request.time &&
+                         isValidAiCouncilRun(incoming(), userId);
+        allow update, delete: if false;
+      }
+    }
+
+    match /marketplaceListings/{listingId} {
+      allow list: if isSignedIn();
+      allow get: if isSignedIn() && isValidId(listingId);
+      allow create: if isSignedIn() && isValidId(listingId) &&
+                       incoming().creatorUid == request.auth.uid &&
+                       (incoming().listingStatus == 'PENDING_REVIEW' || isAdmin()) &&
+                       incoming().createdAt is timestamp && incoming().createdAt <= request.time &&
+                       incoming().updatedAt is timestamp && incoming().updatedAt <= request.time &&
+                       isValidMarketplaceListing(incoming());
+      allow update: if isSignedIn() && isValidId(listingId) &&
+                       isValidMarketplaceListing(incoming()) &&
+                       incoming().creatorUid == existing().creatorUid &&
+                       incoming().createdAt == existing().createdAt &&
+                       incoming().updatedAt is timestamp && incoming().updatedAt <= request.time &&
+                       (
+                         isAdmin() ||
+                         (
+                           isOwner(existing().creatorUid) &&
+                           incoming().listingStatus == existing().listingStatus &&
+                           incoming().diff(existing()).affectedKeys().hasOnly(['name', 'description', 'version', 'mql5Source', 'pineSource', 'releaseNotes', 'updatedAt'])
+                         ) ||
+                         (
+                           incoming().diff(existing()).affectedKeys().hasOnly(['downloadCount', 'avgRating', 'reviewCount', 'updatedAt'])
+                         )
+                       );
+      allow delete: if isValidId(listingId) && (isAdmin() || isOwner(existing().creatorUid));
+
+      match /reviews/{reviewId} {
+        allow list: if isSignedIn();
+        allow get: if isSignedIn() && isValidId(reviewId);
+        allow create: if isSignedIn() && isValidId(reviewId) &&
+                         incoming().userId == request.auth.uid &&
+                         incoming().createdAt is timestamp && incoming().createdAt <= request.time &&
+                         incoming().updatedAt is timestamp && incoming().updatedAt <= request.time &&
+                         isValidIndicatorReview(incoming(), listingId);
+        allow update: if isOwner(existing().userId) && isValidId(reviewId) &&
+                         isValidIndicatorReview(incoming(), listingId) &&
+                         incoming().userId == existing().userId &&
+                         incoming().createdAt == existing().createdAt &&
+                         incoming().updatedAt is timestamp && incoming().updatedAt <= request.time &&
+                         incoming().diff(existing()).affectedKeys().hasOnly(['rating', 'reviewText', 'updatedAt']);
+        allow delete: if isValidId(reviewId) && (isAdmin() || isOwner(existing().userId));
+      }
+    }
+  }
+}

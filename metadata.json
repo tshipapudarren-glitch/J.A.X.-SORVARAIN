@@ -1,0 +1,6 @@
+{
+  "name": "J.A.X. Omniverse",
+  "description": "Autonomous AI trading intelligence ecosystem featuring 30 self-learning indicators, interactive chart analysis, setup generation, backtesting, and risk management.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
